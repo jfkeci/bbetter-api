@@ -12,9 +12,6 @@ const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-//routes
-app.use('/bbetter/users', usersRoute)
-
 //logger
 const logger = winston.createLogger({
     level: 'info',
@@ -31,6 +28,9 @@ const logger = winston.createLogger({
     ]
   });
 
+//routes
+app.use('/bbetter/users', usersRoute)
+
 //connect to mongodb atlas
 mongoose
     .connect(
@@ -46,5 +46,5 @@ mongoose
 })
 
 app.listen (PORT, () => {
-    console.log(`Server started at port: ${PORT}`)
+    logger.info(`Server started at port: ${PORT}`)
 })

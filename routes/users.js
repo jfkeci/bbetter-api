@@ -28,4 +28,37 @@ router.get('/all', async (req, res) => {
         })
 })
 
+//GET: GET USER BY ID
+router.get('/get/:userId', async (req, res) => {
+    const user = await User.findById(req.params.userId)
+    if(!user) res.status(404).send("User not found")
+    else res.send(user)
+})
+
+//UPDATE USER BASED ON ID
+router.put('/update/:userId', async (req, res) => {
+    const updatedUser = await User.findByIdAndUpdate(
+        req.params.userId, {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            username: req.body.username,
+            email: req.body.email,
+            gender: req.body.gender,
+            age: req.body.age
+        },
+        {new: true}
+    )
+
+    if(!updatedUser) res.status(404).send("User not found")
+    else res.send(updatedUser)
+})
+
+//DELETE USER
+router.delete('/delete/:userId', async (req, res) => {
+    const user = await User.findByIdAndRemove(req.params.userId)
+    if(!user) res.status(404).send("User not found")
+    else res.send(user)
+})
+
+
 module.exports = router;
