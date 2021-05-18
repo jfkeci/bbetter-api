@@ -3,14 +3,19 @@ const mongoose = require('mongoose')
 const winston = require('winston')
 const app = express()
 require ('dotenv').config()
-const notesRoute = require('./routes/notes')
+const usersRoute = require('./routes/users')
 const { createLogger } = require('winston')
 
 const PORT = process.env.PORT || 3000
 
+//middleware
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
+//routes
+app.use('/api/users', usersRoute)
+
+//logger
 const logger = winston.createLogger({
     level: 'info',
     transports: [
