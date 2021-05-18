@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 //routes
-app.use('/api/users', usersRoute)
+app.use('/bbetter/users', usersRoute)
 
 //logger
 const logger = winston.createLogger({
