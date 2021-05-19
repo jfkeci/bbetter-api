@@ -1,9 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../models/user')
+const {User, validateUser} = require('../models/user')
 
 //POST: CREATE A NEW USER
-router.post('/new', (req, res) => {
+router.post('/new', async (req, res) => {
+    const error = await validateUser(req.body)
+    if(error.message) res.status(400).send(error.message)
+
     user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,

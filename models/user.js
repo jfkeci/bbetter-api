@@ -44,12 +44,14 @@ const UserSchema = new mongoose.Schema({
     }
 },{timestamps:true})
 
-/* const validateUser = user => {
+const validateUser = (user) => {
     const schema = yup.object().shape({
-        userName: yup.string().required().min(3).max(100),
-        authorName: yup.string().required().min(3).max(50),
-        authorAge: yup.number().required().min(10, 'Age must be greater than 10').max(100, 'age must be less than 100'),
-        userGenre: yup.string().required().min(3).max(30)
+        firstName: yup.string().required().min(1).max(255),
+        lastName: yup.string().required().min(1).max(255),
+        username: yup.string().required().min(1).max(40),
+        email: yup.string().required().min(5).max(255),
+        gender: yup.string().required().min(1).max(2),
+        age: yup.number().required().min(10).max(120)
     })
 
     return schema
@@ -60,9 +62,9 @@ const UserSchema = new mongoose.Schema({
                 message: error.message
             }
         })
-} */
+}
 
-module.exports = new mongoose.model('User', UserSchema) //default export
+/* module.exports = new mongoose.model('User', UserSchema) //default export */
 
-/* exports.User = new mongoose.model('User', UserSchema) //named export */
-/* exports.validateUser = validateUser */
+exports.User = new mongoose.model('User', UserSchema) //named export
+exports.validateUser = validateUser
