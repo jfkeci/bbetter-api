@@ -1,0 +1,57 @@
+const express = require('express')
+const router = express.Router()
+const Note = require('../models/note')
+
+//POST: CREATE A NEW NOTE
+router.post('/new/:userId', (req, res) => {
+    note = new Note({
+        userId: req.params.userId,
+        noteTitle: req.body.noteTitle,
+        noteContent: req.body.noteContent,
+    })
+    note.save().then(note => {
+        res.send(note)
+    }).catch(error => {
+        res.status(500).send("Note was not stored in the database, error: " + error)
+    })
+})
+
+//GET: GET ALL NOTES
+router.get('/all', async (req, res) => {
+    const notes = await Note.find()
+        .then((notes) => res.send(notes))
+        .catch((error) => {
+            res.status(500).send(`Something went wrong getting the data, error: ${error}`)
+        })
+})
+
+//GET: GET NOTE BY ID
+router.get('/:noteId', async (req, res) => {
+    const note = await Note.findById(req.params.noteId)
+    if(!note) res.status(404).send("User not found")
+    else res.send(note)
+})
+
+//UPDATE NOTE BASED ON ID
+router.put('/note/:noteId', async (req, res) => {
+    const updatedNote = await User.findByIdAndUpdate(
+        req.params.noteId, {
+            userId: req.body.userId,
+            noteTitle: req.body.noteTitle,
+            noteContent: req.body.noteContent,
+        },
+        {new: true}
+    )
+    if(!updatedNote) res.status(404).send("Note not found")
+    else res.send(updatedNote)
+})
+
+//DELETE NOTE
+router.delete('/note/:noteId', async (req, res) => {
+    const note = await Note.findByIdAndRemove(req.params.noteId)
+    if(!note) res.status(404).send("Note not found")
+    else res.send(note)
+})
+
+
+module.exports = router;

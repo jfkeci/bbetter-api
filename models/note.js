@@ -8,13 +8,13 @@ const NoteSchema = new mongoose.Schema({
         minlength: 0,
         maxlength: 50
     },
-    title: {
+    noteTitle: {
         type: String,
         required: true,
         minlength: 0,
         maxlength: 50
     },
-    content: {
+    noteContent: {
         type: String,
         required: true,
         minlength: 0,
