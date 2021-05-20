@@ -12,6 +12,7 @@ router.post('/new', async (req, res) => {
         lastName: req.body.lastName,
         username: req.body.username,
         email: req.body.email,
+        password: req.body.password,
         gender: req.body.gender,
         age: req.body.age
     })
@@ -46,6 +47,7 @@ router.put('/update/:userId', async (req, res) => {
             lastName: req.body.lastName,
             username: req.body.username,
             email: req.body.email,
+            password: req.body.password,
             gender: req.body.gender,
             age: req.body.age
         },

@@ -30,6 +30,12 @@ const UserSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 250
     },
+    password: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 250
+    },
     gender: {
         type: String,
         required: true,
@@ -49,7 +55,8 @@ const validateUser = (user) => {
         firstName: yup.string().required().min(1).max(255),
         lastName: yup.string().required().min(1).max(255),
         username: yup.string().required().min(1).max(40),
-        email: yup.string().required().min(5).max(255),
+        email: yup.string().required().min(5).max(250),
+        password: yup.string().required().min(5).max(250),
         gender: yup.string().required().min(1).max(2),
         age: yup.number().required().min(10).max(120)
     })
