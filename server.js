@@ -5,6 +5,7 @@ const app = express()
 require ('dotenv').config()
 const usersRoute = require('./routes/users')
 const notesRoute = require('./routes/notes')
+const eventsRoute = require('./routes/events')
 const { createLogger } = require('winston')
 
 const PORT = process.env.PORT || 3000
@@ -32,6 +33,7 @@ const logger = winston.createLogger({
 //routes
 app.use('/bbetter/users', usersRoute)
 app.use('/bbetter/notes', notesRoute)
+app.use('/bbetter/events', eventsRoute)
 
 //connect to mongodb atlas
 mongoose

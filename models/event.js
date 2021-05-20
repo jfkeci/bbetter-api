@@ -1,6 +1,13 @@
 const mongoose = require('mongoose')
 const { boolean, date } = require('yup/lib/locale')
 
+/* "EVENT_ID";
+"USER_ID";
+"EVENT_TYPE";
+"EVENT_CONTENT";
+"EVENT_DATE_TIME";
+"CHECKED"; */
+
 //Event schema
 const EventSchema = new mongoose.Schema({
     userId: {
@@ -9,29 +16,29 @@ const EventSchema = new mongoose.Schema({
         minlength: 0,
         maxlength: 50
     },
-    title: {
+    eventTitle: {
         type: String,
         required: true,
         minlength: 0,
         maxlength: 50
     },
-    details: {
+    eventDetails: {
         type: String,
         required: true,
         minlength: 0,
         maxlength: 250
     },
-    date: {
+    eventDate: {
         type: Date,
         required: true
     },
-    type: {
+    eventType: {
         type: Number,
         required: true,
         min: 1,
         max: 3
     },
-    checked: {
+    eventChecked: {
         type: Boolean,
         required: true
     }

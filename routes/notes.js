@@ -3,9 +3,9 @@ const router = express.Router()
 const Note = require('../models/note')
 
 //POST: CREATE A NEW NOTE
-router.post('/new/:userId', (req, res) => {
+router.post('/new', (req, res) => {
     note = new Note({
-        userId: req.params.userId,
+        userId: req.body.userId,
         noteTitle: req.body.noteTitle,
         noteContent: req.body.noteContent,
     })
@@ -28,17 +28,16 @@ router.get('/all', async (req, res) => {
 //GET: GET NOTE BY ID
 router.get('/:noteId', async (req, res) => {
     const note = await Note.findById(req.params.noteId)
-    if(!note) res.status(404).send("User not found")
+    if(!note) res.status(404).send("Note not found")
     else res.send(note)
 })
 
 //UPDATE NOTE BASED ON ID
 router.put('/note/:noteId', async (req, res) => {
-    const updatedNote = await User.findByIdAndUpdate(
+    const updatedNote = await Note.findByIdAndUpdate(
         req.params.noteId, {
-            userId: req.body.userId,
             noteTitle: req.body.noteTitle,
-            noteContent: req.body.noteContent,
+            noteContent: req.body.noteContent
         },
         {new: true}
     )
