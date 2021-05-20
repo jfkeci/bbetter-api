@@ -8,13 +8,19 @@ const SessionSchema = new mongoose.Schema({
         minlength: 0,
         maxlength: 50
     },
-    length: {
+    sessionLength: {
         type: Number,
         required: true,
-        minlength: 10,
-        maxlength: 90
+        min: 10,
+        max: 90
     },
-    finished: {
+    sessionPoints: {
+        type: Number,
+        required: true,
+        min: 10,
+        max: 90
+    },
+    sessionFinished: {
         type: Boolean,
         required: true
     }

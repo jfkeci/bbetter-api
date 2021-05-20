@@ -11,7 +11,7 @@ router.post('/new', (req, res) => {
         noteArchived: req.body.noteArchived
     })
     note.save().then(note => {
-        res.send(note)
+        res.json(note)
     }).catch(error => {
         res.status(500).send("Note was not stored in the database, error: " + error)
     })
@@ -20,7 +20,7 @@ router.post('/new', (req, res) => {
 //GET: GET ALL NOTES
 router.get('/all', async (req, res) => {
     const notes = await Note.find()
-        .then((notes) => res.send(notes))
+        .then((notes) => res.json(notes))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
         })
@@ -30,7 +30,7 @@ router.get('/all', async (req, res) => {
 router.get('/get/:noteId', async (req, res) => {
     const note = await Note.findById(req.params.noteId)
     if(!note) res.status(404).send("Note not found")
-    else res.send(note)
+    else res.json(note)
 })
 
 //UPDATE NOTE BASED ON ID
@@ -44,14 +44,14 @@ router.put('/update/:noteId', async (req, res) => {
         {new: true}
     )
     if(!updatedNote) res.status(404).send("Note not found")
-    else res.send(updatedNote)
+    else res.json(updatedNote)
 })
 
 //DELETE NOTE
 router.delete('/delete/:noteId', async (req, res) => {
     const note = await Note.findByIdAndRemove(req.params.noteId)
     if(!note) res.status(404).send("Note not found")
-    else res.send(note)
+    else res.json(note)
 })
 
 

@@ -17,7 +17,7 @@ router.post('/new', async (req, res) => {
         age: req.body.age
     })
     user.save().then(user => {
-        res.send(user)
+        res.json(user)
     }).catch(error => {
         res.status(500).send("User was not stored in the database" + error)
     })
@@ -26,7 +26,7 @@ router.post('/new', async (req, res) => {
 //GET: GET ALL USERS
 router.get('/all', async (req, res) => {
     const users = await User.find()
-        .then((users) => res.send(users))
+        .then((users) => res.json(users))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
         })
@@ -36,7 +36,7 @@ router.get('/all', async (req, res) => {
 router.get('/get/:userId', async (req, res) => {
     const user = await User.findById(req.params.userId)
     if(!user) res.status(404).send("User not found")
-    else res.send(user)
+    else res.json(user)
 })
 
 //UPDATE USER BASED ON ID
@@ -55,14 +55,14 @@ router.put('/update/:userId', async (req, res) => {
     )
 
     if(!updatedUser) res.status(404).send("User not found")
-    else res.send(updatedUser)
+    else res.json(updatedUser)
 })
 
 //DELETE USER
 router.delete('/delete/:userId', async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.userId)
     if(!user) res.status(404).send("User not found")
-    else res.send(user)
+    else res.json(user)
 })
 
 
