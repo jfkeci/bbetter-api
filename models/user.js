@@ -47,6 +47,21 @@ const UserSchema = new mongoose.Schema({
         required: true,
         min: 12,
         max: 120
+    },
+    userNotesUrl: {
+        type: String,
+        minlength: 0,
+        maxlength: 250
+    },
+    userEventsUrl: {
+        type: String,
+        minlength: 0,
+        maxlength: 250
+    },
+    userSessionsUrl: {
+        type: String,
+        minlength: 0,
+        maxlength: 250
     }
 },{timestamps:true})
 

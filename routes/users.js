@@ -14,10 +14,28 @@ router.post('/new', async (req, res) => {
         email: req.body.email,
         password: req.body.password,
         gender: req.body.gender,
-        age: req.body.age
+        age: req.body.age,
+        userNotesUrl: "",
+        userEventsUrl: "",
+        userSessionsUrl: ""
     })
-    user.save().then(user => {
-        res.json(user)
+    user.save().then(async(user) => {
+        
+        const uid = user._id;
+        const notesUrl = "https://secret-temple-10001.herokuapp.com/bbetter/notes/all/" + uid;
+        const eventsUrl = "https://secret-temple-10001.herokuapp.com/bbetter/events/all/" + uid;
+        const sessionsUrl = "https://secret-temple-10001.herokuapp.com/bbetter/sessions/all/" + uid;
+
+        const updatedUser = await User.findByIdAndUpdate(
+            uid, {
+                userNotesUrl: notesUrl,
+                userEventsUrl: eventsUrl,
+                userSessionsUrl: sessionsUrl
+            },
+            {new: true}
+        )
+
+        res.json(updatedUser)
     }).catch(error => {
         res.status(500).send("User was not stored in the database" + error)
     })

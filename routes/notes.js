@@ -54,5 +54,42 @@ router.delete('/delete/:noteId', async (req, res) => {
     else res.json(note)
 })
 
+//GET: GET ALL NOTES FROM USER
+router.get('/all/:userId', async (req, res) => {
+    const notes = await Note.find({userId: req.params.userId}).exec()
+        .then((notes) => res.json(notes))
+        .catch((error) => {
+            res.status(500).send(`Something went wrong getting the data, error: ${error}`)
+        })
+})
+
+//GET: GET SPECIFIC NOTE FROM USER 
+router.get('/get/:noteId/:userId', async (req, res) => {
+    const note = await Note.findById(req.params.noteId)
+    if(!note) res.status(404).send("Note not found")
+    else res.json(note)
+})
+
+//UPDATE USER NOTE BASED ON ID
+router.put('/update/:noteId/:userId', async (req, res) => {
+    const updatedNote = await Note.findByIdAndUpdate(
+        req.params.noteId, {
+            noteTitle: req.body.noteTitle,
+            noteContent: req.body.noteContent,
+            noteArchived: req.body.noteArchived
+        },
+        {new: true}
+    )
+    if(!updatedNote) res.status(404).send("Note not found")
+    else res.json(updatedNote)
+})
+
+//DELETE USER NOTE
+router.delete('/delete/:noteId/:userId', async (req, res) => {
+    const note = await Note.findByIdAndRemove(req.params.noteId)
+    if(!note) res.status(404).send("Note not found")
+    else res.json(note)
+})
+
 
 module.exports = router;
