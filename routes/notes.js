@@ -8,6 +8,7 @@ router.post('/new', (req, res) => {
         userId: req.body.userId,
         noteTitle: req.body.noteTitle,
         noteContent: req.body.noteContent,
+        noteArchived: req.body.noteArchived
     })
     note.save().then(note => {
         res.send(note)
@@ -26,18 +27,19 @@ router.get('/all', async (req, res) => {
 })
 
 //GET: GET NOTE BY ID
-router.get('/:noteId', async (req, res) => {
+router.get('/get/:noteId', async (req, res) => {
     const note = await Note.findById(req.params.noteId)
     if(!note) res.status(404).send("Note not found")
     else res.send(note)
 })
 
 //UPDATE NOTE BASED ON ID
-router.put('/note/:noteId', async (req, res) => {
+router.put('/update/:noteId', async (req, res) => {
     const updatedNote = await Note.findByIdAndUpdate(
         req.params.noteId, {
             noteTitle: req.body.noteTitle,
-            noteContent: req.body.noteContent
+            noteContent: req.body.noteContent,
+            noteArchived: req.body.noteArchived
         },
         {new: true}
     )
@@ -46,7 +48,7 @@ router.put('/note/:noteId', async (req, res) => {
 })
 
 //DELETE NOTE
-router.delete('/note/:noteId', async (req, res) => {
+router.delete('/delete/:noteId', async (req, res) => {
     const note = await Note.findByIdAndRemove(req.params.noteId)
     if(!note) res.status(404).send("Note not found")
     else res.send(note)

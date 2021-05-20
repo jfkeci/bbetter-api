@@ -19,6 +19,10 @@ const NoteSchema = new mongoose.Schema({
         required: true,
         minlength: 0,
         maxlength: 3000
+    },
+    noteArchived: {
+        type: Boolean,
+        required: true
     }
 }, {timestamps: true})
 

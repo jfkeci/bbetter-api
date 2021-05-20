@@ -10,7 +10,7 @@ router.post('/new', (req, res) => {
         eventDetails: req.body.eventDetails,
         eventDate: req.body.eventDate,
         eventType: req.body.eventType,
-        eventChecked: req.body.eventChecked,
+        eventChecked: req.body.eventChecked
     })
     event.save().then(event => {
         res.send(event)
@@ -29,14 +29,14 @@ router.get('/all', async (req, res) => {
 })
 
 //GET: GET EVENT BY ID
-router.get('/:eventId', async (req, res) => {
+router.get('/get/:eventId', async (req, res) => {
     const event = await Event.findById(req.params.eventId)
-    if(!event) res.status(404).send("User not found")
+    if(!event) res.status(404).send("Event not found")
     else res.send(event)
 })
 
 //UPDATE EVENT BASED ON ID
-router.put('/event/:eventId', async (req, res) => {
+router.put('/update/:eventId', async (req, res) => {
     const updatedEvent = await Event.findByIdAndUpdate(
         req.params.eventId, {
             eventTitle: req.body.eventTitle,
@@ -52,7 +52,7 @@ router.put('/event/:eventId', async (req, res) => {
 })
 
 //DELETE EVENT
-router.delete('/event/:eventId', async (req, res) => {
+router.delete('/delete/:eventId', async (req, res) => {
     const event = await Event.findByIdAndRemove(req.params.eventId)
     if(!event) res.status(404).send("Event not found")
     else res.send(event)
