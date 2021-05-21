@@ -63,7 +63,7 @@ router.get('/all/:userId', async (req, res) => {
         })
 })
 
-//GET: GET SPECIFIC NOTE FROM USER 
+/* //GET: GET SPECIFIC NOTE FROM USER 
 router.get('/get/:noteId/:userId', async (req, res) => {
     const note = await Note.find({
         _id: req.params.noteId, 
@@ -71,20 +71,6 @@ router.get('/get/:noteId/:userId', async (req, res) => {
     })
     if(!note) res.status(404).send("Note not found")
     else res.json(note)
-})
-
-//UPDATE USER NOTE BASED ON ID
-router.put('/update/:noteId/:userId', async (req, res) => {
-    const updatedNote = await Note.findByIdAndUpdate(
-        req.params.noteId, {
-            noteTitle: req.body.noteTitle,
-            noteContent: req.body.noteContent,
-            noteArchived: req.body.noteArchived
-        },
-        {new: true}
-    )
-    if(!updatedNote) res.status(404).send("Note not found")
-    else res.json(updatedNote)
-})
+}) */
 
 module.exports = router;

@@ -4,6 +4,7 @@ const Note = require('./note')
 const Event = require('./event')
 const yup = require('yup')
 
+
 //User schema
 const UserSchema = new mongoose.Schema({
     firstName: {
@@ -21,12 +22,14 @@ const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
+        unique: true,
         minlength: 1,
         maxlength: 40
     },
     email: {
         type: String,
         required: true,
+        unique: true,
         minlength: 5,
         maxlength: 250
     },
