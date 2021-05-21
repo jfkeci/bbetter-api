@@ -57,6 +57,16 @@ router.get('/get/:userId', async (req, res) => {
     else res.json(user)
 })
 
+//GET: GET USER BY EMAIL
+router.get('/login/:userEmail/:userPassword', async (req, res) => {
+    const user = await User.find({
+        email: req.params.userEmail,
+        password: req.params.userPassword
+    })
+    if(!user) res.status(404).send("User doesnt exist")
+    else res.send("User exists")
+})
+
 //UPDATE USER BASED ON ID
 router.put('/update/:userId', async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
