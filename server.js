@@ -39,7 +39,7 @@ app.use('/bbetter/users', usersRoute)
 app.use('/bbetter/notes', notesRoute)
 app.use('/bbetter/events', eventsRoute)
 app.use('/bbetter/sessions', sessionsRoute)
-app.use('/bbetter/prompts', ptomptsRoute)
+app.use('/bbetter/prompts', promptsRoute)
 
 //connect to mongodb atlas
 mongoose
