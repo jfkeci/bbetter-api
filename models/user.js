@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
         minlength: 1,
         maxlength: 255
     },
-    username: {
+    userName: {
         type: String,
         required: true,
         unique: true,
@@ -72,7 +72,7 @@ const validateUser = (user) => {
     const schema = yup.object().shape({
         firstName: yup.string().required().min(1).max(255),
         lastName: yup.string().required().min(1).max(255),
-        username: yup.string().required().min(1).max(40),
+        userName: yup.string().required().min(1).max(40),
         email: yup.string().required().min(5).max(250),
         password: yup.string().required().min(5).max(250),
         gender: yup.string().required().min(1).max(2),

@@ -10,7 +10,7 @@ router.post('/new', async (req, res) => {
     user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        username: req.body.username,
+        userName: req.body.userName,
         email: req.body.email,
         password: req.body.password,
         gender: req.body.gender,
@@ -57,23 +57,34 @@ router.get('/get/:userId', async (req, res) => {
     else res.json(user)
 })
 
-//GET: GET USER BY EMAIL
+//GET: LOGIN USER
 router.get('/login/:userEmail/:userPassword', async (req, res) => {
     const user = await User.find({
         email: req.params.userEmail,
         password: req.params.userPassword
     })
-    if(!user) res.status(404).send("User doesnt exist")
-    else res.send("User exists")
+    if(!user) res.status(404).send("0")
+    else res.send("1")
 })
 
+/* //GET: LOGIN USER QUERY
+router.get('/login', async (req, res) => {
+
+    const user = await User.find({
+        email: req.query.email,
+        password: req.query.password
+    })
+    if(!user) res.status(404).send("0")
+    else res.send(user)
+})
+ */
 //UPDATE USER BASED ON ID
 router.put('/update/:userId', async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
         req.params.userId, {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            username: req.body.username,
+            userName: req.body.userName,
             email: req.body.email,
             password: req.body.password,
             gender: req.body.gender,
