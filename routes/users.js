@@ -63,8 +63,7 @@ router.get('/login/:userEmail/:userPassword', async (req, res) => {
         email: req.params.userEmail,
         password: req.params.userPassword
     })
-    if(!user) res.status(404).send("0")
-    else res.send("1")
+  
 })
 
 /* //GET: LOGIN USER QUERY
