@@ -4,41 +4,57 @@ const {User, validateUser} = require('../models/user')
 
 //POST: CREATE A NEW USER
 router.post('/new', async (req, res) => {
-    const error = await validateUser(req.body)
-    if(error.message) res.status(400).send(error.message)
 
-    user = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        userName: req.body.userName,
-        email: req.body.email,
-        password: req.body.password,
-        gender: req.body.gender,
-        age: req.body.age,
-        userNotesUrl: "",
-        userEventsUrl: "",
-        userSessionsUrl: ""
-    })
-    user.save().then(async(user) => {
-        
-        const uid = user._id;
-        const notesUrl = "https://secret-temple-10001.herokuapp.com/bbetter/notes/all/" + uid;
-        const eventsUrl = "https://secret-temple-10001.herokuapp.com/bbetter/events/all/" + uid;
-        const sessionsUrl = "https://secret-temple-10001.herokuapp.com/bbetter/sessions/all/" + uid;
+    
+    const users = await User.find()
 
-        const updatedUser = await User.findByIdAndUpdate(
-            uid, {
-                userNotesUrl: notesUrl,
-                userEventsUrl: eventsUrl,
-                userSessionsUrl: sessionsUrl
-            },
-            {new: true}
-        )
+    var userExists = false
+    
+    for(i=0; i<users.length; i++){
+        if(users[i].userName == req.body.userName || users[i].email == req.body.email){
+            userExists = true
+            break
+        }
+    }
+    if(!userExists){
+        const error = await validateUser(req.body)
+        if(error.message) res.status(400).send(error.message)
 
-        res.json(updatedUser)
-    }).catch(error => {
-        res.status(500).send("User was not stored in the database" + error)
-    })
+        user = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            userName: req.body.userName,
+            email: req.body.email,
+            password: req.body.password,
+            gender: req.body.gender,
+            age: req.body.age,
+            userNotesUrl: "",
+            userEventsUrl: "",
+            userSessionsUrl: ""
+        })
+        user.save().then(async(user) => {
+            
+            const uid = user._id;
+            const notesUrl = "https://secret-temple-10001.herokuapp.com/bbetter/notes/all/" + uid;
+            const eventsUrl = "https://secret-temple-10001.herokuapp.com/bbetter/events/all/" + uid;
+            const sessionsUrl = "https://secret-temple-10001.herokuapp.com/bbetter/sessions/all/" + uid;
+
+            const updatedUser = await User.findByIdAndUpdate(
+                uid, {
+                    userNotesUrl: notesUrl,
+                    userEventsUrl: eventsUrl,
+                    userSessionsUrl: sessionsUrl
+                },
+                {new: true}
+            )
+
+            res.json(updatedUser)
+        }).catch(error => {
+            res.status(500).send("User was not stored in the database" + error)
+        })
+    }else{
+        res.send("User already exists")
+    }
 })
 
 //GET: GET ALL USERS
