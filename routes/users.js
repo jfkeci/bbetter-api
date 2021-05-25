@@ -4,7 +4,6 @@ const {User, validateUser} = require('../models/user')
 
 //POST: CREATE A NEW USER
 router.post('/new', async (req, res) => {
-
     
     const users = await User.find()
 
@@ -50,7 +49,9 @@ router.post('/new', async (req, res) => {
 
             res.json(updatedUser)
         }).catch(error => {
-            res.status(500).send("User was not stored in the database" + error)
+            res.status(500).send({
+                message: "User was not stored in the database" + error
+            })
         })
     }else{
         res.json("User already exists")
@@ -62,14 +63,18 @@ router.get('/all', async (req, res) => {
     const users = await User.find()
         .then((users) => res.json(users))
         .catch((error) => {
-            res.status(500).send(`Something went wrong getting the data, error: ${error}`)
+            res.status(500).send({
+                message: `Something went wrong getting the data, error: ${error}`
+            })
         })
 })
 
 //GET: GET USER BY ID
 router.get('/get/:userId', async (req, res) => {
     const user = await User.findById(req.params.userId)
-    if(!user) res.status(404).send("User not found")
+    if(!user) res.status(404).send({
+        message: "User not found"
+    })
     else res.json(user)
 })
 
@@ -79,7 +84,10 @@ router.get('/login/:userEmail/:userPassword', async (req, res) => {
         email: req.params.userEmail,
         password: req.params.userPassword
     })
-    if(!user) res.status(404).send("User not found")
+    
+    if(!user) res.status(404).send({
+        message: "User not found"
+    })
     else res.json(user)
 })
 
@@ -109,14 +117,18 @@ router.put('/update/:userId', async (req, res) => {
         {new: true}
     )
 
-    if(!updatedUser) res.status(404).send("User not found")
+    if(!updatedUser) res.status(404).send({
+        message: "User not found"
+    })
     else res.json(updatedUser)
 })
 
 //DELETE USER
 router.delete('/delete/:userId', async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.userId)
-    if(!user) res.status(404).send("User not found")
+    if(!user) res.status(404).send({
+        message: "User not found"
+    })
     else res.json(user)
 })
 
