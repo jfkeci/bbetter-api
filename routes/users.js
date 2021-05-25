@@ -53,7 +53,7 @@ router.post('/new', async (req, res) => {
             res.status(500).send("User was not stored in the database" + error)
         })
     }else{
-        res.send("User already exists")
+        res.json("User already exists")
     }
 })
 
