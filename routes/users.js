@@ -54,9 +54,7 @@ router.post('/new', async (req, res) => {
             })
         })
     }else{
-        res.status(500).send({
-            message: "User already exists"
-        })
+        res.status(500).send("User already exists")
     }
 })
 
