@@ -54,7 +54,9 @@ router.post('/new', async (req, res) => {
             })
         })
     }else{
-        res.json("User already exists")
+        res.status(500).send({
+            message: "User already exists"
+        })
     }
 })
 
@@ -102,6 +104,7 @@ router.get('/login', async (req, res) => {
     else res.send(user)
 })
  */
+
 //UPDATE USER BASED ON ID
 router.put('/update/:userId', async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
