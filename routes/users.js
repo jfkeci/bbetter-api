@@ -85,9 +85,7 @@ router.get('/login/:userEmail/:userPassword', async (req, res) => {
         password: req.params.userPassword
     })
     
-    if(!user) res.status(404).send({
-        message: "User not found"
-    })
+    if(!user) res.status(404).send("User not found")
     else res.json(user)
 })
 
