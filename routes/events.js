@@ -1,16 +1,17 @@
 const express = require('express')
+const event = require('../models/event')
 const router = express.Router()
 const Event = require('../models/event')
 
 //POST: CREATE A NEW EVENT
 router.post('/new', (req, res) => {
-    event = new Event({
+    const event = new Event({
         userId: req.body.userId,
         eventTitle: req.body.eventTitle,
         eventDetails: req.body.eventDetails,
         eventDate: req.body.eventDate,
         eventType: req.body.eventType,
-        eventChecked: req.body.eventChecked
+        eventChecked: false
     })
     event.save().then(event => {
         res.json(event)
@@ -67,5 +68,16 @@ router.get('/all/:userId', async (req, res) => {
         })
 })
 
+//GET: ALL USER EVENTS DONE/PENDING
+router.get('/all/:userId/:checked', async (req, res) => {
+    const events = await Event.find({
+        userId: req.params.userId,
+        eventChecked: req.params.checked
+    }).exec()
+        .then((events) => res.json(events))
+        .catch((error) => {
+            res.status(500).send(`Something went wrong getting the data, error: ${error}`)
+        })
+})
 
 module.exports = router;
