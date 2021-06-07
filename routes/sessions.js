@@ -9,6 +9,7 @@ router.post('/new', (req, res) => {
         sessionLength: req.body.sessionLength,
         sessionPoints: req.body.sessionPoints,
         sessionFinished: req.body.sessionFinished,
+        synced: 0
     })
     session.save().then(session => {
         res.json(session)
@@ -34,12 +35,29 @@ router.get('/get/:sessionId', async (req, res) => {
 })
 
 //UPDATE SESSION BASED ON ID
-router.put('/update/:sessionId', async (req, res) => {
+router.put('/put/:sessionId', async (req, res) => {
     const updatedSession = await Session.findByIdAndUpdate(
-        req.params.sessionId, {
+        req.params.sessionId, 
+        {
             sessionLength: req.body.sessionLength,
             sessionPoints: req.body.sessionPoints,
-            sessionFinished: req.body.sessionFinished
+            sessionFinished: req.body.sessionFinished,
+            synced: req.body.synced
+        },
+        {new: true}
+    )
+    if(!updatedSession) res.status(404).send("Session not found")
+    else res.json(updatedSession)
+})
+//UPDATE SESSION BASED ON ID
+router.patch('/patch/:sessionId', async (req, res) => {
+    const updatedSession = await Session.findByIdAndUpdate(
+        req.params.sessionId, 
+        {
+            sessionLength: req.body.sessionLength,
+            sessionPoints: req.body.sessionPoints,
+            sessionFinished: req.body.sessionFinished,
+            synced: req.body.synced
         },
         {new: true}
     )
