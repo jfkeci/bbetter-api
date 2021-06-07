@@ -9,7 +9,7 @@ router.post('/new', (req, res) => {
         sessionLength: req.body.sessionLength,
         sessionPoints: req.body.sessionPoints,
         sessionFinished: req.body.sessionFinished,
-        synced: 0
+        synced: req.body.synced
     })
     session.save().then(session => {
         res.json(session)

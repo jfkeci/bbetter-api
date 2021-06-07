@@ -8,7 +8,8 @@ router.post('/new', (req, res) => {
         userId: req.body.userId,
         noteTitle: req.body.noteTitle,
         noteContent: req.body.noteContent,
-        noteArchived: req.body.noteArchived
+        noteArchived: req.body.noteArchived,
+        synced: req.body.synced
     })
     note.save().then(note => {
         res.json(note)
@@ -34,12 +35,29 @@ router.get('/get/:noteId', async (req, res) => {
 })
 
 //UPDATE NOTE BASED ON ID
-router.put('/update/:noteId', async (req, res) => {
+router.put('/put/:noteId', async (req, res) => {
     const updatedNote = await Note.findByIdAndUpdate(
-        req.params.noteId, {
+        req.params.noteId, 
+        {
             noteTitle: req.body.noteTitle,
             noteContent: req.body.noteContent,
-            noteArchived: req.body.noteArchived
+            noteArchived: req.body.noteArchived,
+            synced: req.body.synced
+        },
+        {new: true}
+    )
+    if(!updatedNote) res.status(404).send("Note not found")
+    else res.json(updatedNote)
+})
+//UPDATE NOTE BASED ON ID
+router.patch('/patch/:noteId', async (req, res) => {
+    const updatedNote = await Note.findByIdAndUpdate(
+        req.params.noteId, 
+        {
+            noteTitle: req.body.noteTitle,
+            noteContent: req.body.noteContent,
+            noteArchived: req.body.noteArchived,
+            synced: req.body.synced
         },
         {new: true}
     )

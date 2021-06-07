@@ -34,7 +34,13 @@ const EventSchema = new mongoose.Schema({
     eventChecked: {
         type: Boolean,
         required: true
-    }
+    },
+    synced: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 3
+    },
 }, {timestamps: true})
 
 module.exports = new mongoose.model('Event', EventSchema)

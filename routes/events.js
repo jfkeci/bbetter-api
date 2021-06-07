@@ -4,13 +4,14 @@ const Event = require('../models/event')
 
 //POST: CREATE A NEW EVENT
 router.post('/new', (req, res) => {
-    const event = new Event({
+    event = new Event({
         userId: req.body.userId,
         eventTitle: req.body.eventTitle,
         eventDetails: req.body.eventDetails,
         eventDate: req.body.eventDate,
         eventType: req.body.eventType,
-        eventChecked: false
+        eventChecked: req.body.eventChecked,
+        synced: req.body.synced
     })
     event.save().then(event => {
         res.json(event)
@@ -36,14 +37,34 @@ router.get('/get/:eventId', async (req, res) => {
 })
 
 //UPDATE EVENT BASED ON ID
-router.put('/update/:eventId', async (req, res) => {
+router.put('/put/:eventId', async (req, res) => {
     const updatedEvent = await Event.findByIdAndUpdate(
-        req.params.eventId, {
+        req.params.eventId, 
+        {
             eventTitle: req.body.eventTitle,
             eventDetails: req.body.eventDetails,
             eventDate: req.body.eventDate,
             eventType: req.body.eventType,
-            eventChecked: req.body.eventChecked
+            eventChecked: req.body.eventChecked,
+            synced: req.body.synced
+        },
+        {new: true}
+    )
+    if(!updatedEvent) res.status(404).send("Event not found")
+    else res.json(updatedEvent)
+})
+
+//UPDATE EVENT BASED ON ID
+router.patch('/patch/:eventId', async (req, res) => {
+    const updatedEvent = await Event.findByIdAndUpdate(
+        req.params.eventId, 
+        {
+            eventTitle: req.body.eventTitle,
+            eventDetails: req.body.eventDetails,
+            eventDate: req.body.eventDate,
+            eventType: req.body.eventType,
+            eventChecked: req.body.eventChecked,
+            synced: req.body.synced
         },
         {new: true}
     )
