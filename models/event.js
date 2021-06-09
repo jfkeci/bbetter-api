@@ -22,7 +22,7 @@ const EventSchema = new mongoose.Schema({
         maxlength: 250
     },
     eventDate: {
-        type: Date,
+        type: String,
         required: true
     },
     eventType: {
