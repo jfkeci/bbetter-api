@@ -80,6 +80,17 @@ router.get('/all/:userId', async (req, res) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
         })
 })
+//GET: GET ALL SESSIONS FROM USER BASED ON SYNCED STATE
+router.get('/all/:userId/:synced', async (req, res) => {
+    const sessions = await Session.find({
+        userId: req.params.userId,
+        synced: req.params.synced
+    }).exec()
+        .then((sessions) => res.json(sessions))
+        .catch((error) => {
+            res.status(500).send(`Something went wrong getting the data, error: ${error}`)
+        })
+})
 
 
 module.exports = router;

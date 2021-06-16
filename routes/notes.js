@@ -80,6 +80,17 @@ router.get('/all/:userId', async (req, res) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
         })
 })
+//GET: GET ALL NOTES FROM USER BASED ON SYNCED STATE
+router.get('/all/:userId/:synced', async (req, res) => {
+    const notes = await Note.find({
+        userId: req.params.userId,
+        synced: req.params.synced
+    }).exec()
+        .then((notes) => res.json(notes))
+        .catch((error) => {
+            res.status(500).send(`Something went wrong getting the data, error: ${error}`)
+        })
+})
 
 /* //GET: GET SPECIFIC NOTE FROM USER 
 router.get('/get/:noteId/:userId', async (req, res) => {

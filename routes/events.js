@@ -99,5 +99,16 @@ router.get('/all/:userId/:checked', async (req, res) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
         })
 })
+//GET: ALL USER EVENTS BASED ON SYNCED STATE
+router.get('/all/:userId/:synced', async (req, res) => {
+    const events = await Event.find({
+        userId: req.params.userId,
+        eventChecked: req.params.synced
+    }).exec()
+        .then((events) => res.json(events))
+        .catch((error) => {
+            res.status(500).send(`Something went wrong getting the data, error: ${error}`)
+        })
+})
 
 module.exports = router;
