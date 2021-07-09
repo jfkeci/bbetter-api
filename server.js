@@ -6,9 +6,12 @@ const app = express()
 require ('dotenv').config()
 const { createLogger } = require('winston')
 
-app.use(cors())
+app.use(cors(/* {
+    origin: 'http://localhost:3000/'
+} */))
 
 const usersRoute = require('./routes/users')
+const adminsRoute = require('./routes/admins')
 const notesRoute = require('./routes/notes')
 const eventsRoute = require('./routes/events')
 const sessionsRoute = require('./routes/sessions')
@@ -39,6 +42,7 @@ const logger = winston.createLogger({
 
 //routes
 app.use('/bbetter/users', usersRoute)
+app.use('/bbetter/admins', adminsRoute)
 app.use('/bbetter/notes', notesRoute)
 app.use('/bbetter/events', eventsRoute)
 app.use('/bbetter/sessions', sessionsRoute)
