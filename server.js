@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const winston = require('winston')
+const cors = require('cors')
 const app = express()
 require ('dotenv').config()
 const { createLogger } = require('winston')
