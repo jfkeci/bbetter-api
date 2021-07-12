@@ -57,6 +57,23 @@ const validateAdmin = (admin) => {
         })
 }
 
+const validateAdminLogin = (admin) => {
+    const schema = yup.object().shape({
+        email: yup.string().required().min(5).max(250),
+        password: yup.string().required().min(5).max(250),
+    })
 
-exports.Admin = new mongoose.model('Admin', AdminSchema) //named export
-exports.validateAdmin = validateAdmin
+    return schema
+        .validate(admin)
+        .then(admin => admin)
+        .catch(error => {
+            return{
+                message: error.message
+            }
+        })
+}
+
+
+module.exports = Admin = new mongoose.model('Admin', AdminSchema) //named export
+module.exports.validateAdmin = validateAdmin
+module.exports.validateAdminLogin = validateAdminLogin

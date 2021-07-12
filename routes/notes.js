@@ -92,14 +92,6 @@ router.get('/all/:userId/:synced', async (req, res) => {
         })
 })
 
-/* //GET: GET SPECIFIC NOTE FROM USER 
-router.get('/get/:noteId/:userId', async (req, res) => {
-    const note = await Note.find({
-        _id: req.params.noteId, 
-        userId: req.params.userId
-    })
-    if(!note) res.status(404).send("Note not found")
-    else res.json(note)
-}) */
+
 
 module.exports = router;

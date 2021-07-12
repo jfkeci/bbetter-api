@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const Session = require('../models/session')
+const verifyUserToken = require('./verifyUserToken')
+const verifyAdminToken = require('./verifyAdminToken')
 
 //POST: CREATE A NEW SESSIONS
 router.post('/new', (req, res) => {

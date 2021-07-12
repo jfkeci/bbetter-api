@@ -6,9 +6,7 @@ const app = express()
 require ('dotenv').config()
 const { createLogger } = require('winston')
 
-app.use(cors(/* {
-    origin: 'http://localhost:3000/'
-} */))
+app.use(cors())
 
 const usersRoute = require('./routes/users')
 const adminsRoute = require('./routes/admins')

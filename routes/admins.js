@@ -1,16 +1,38 @@
 const express = require('express')
 const router = express.Router()
-const {Admin, validateAdmin} = require('../models/admin')
+
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+const Admin = require('../models/admin')
+const {validateAdmin, validateAdminLogin} = require('../models/admin')
 
 
 //POST: NEW ADMIN
-router.post('/new', (req, res) => {
+router.post('/new', async (req, res) => {
+
+    //Validating the data before saving admin
+    const error = await validateAdmin(req.body)
+    if(error.message) return res.status(400).send(error.message)
+
+    //Checking if the admin is already in the database
+    const emailExists = await Admin.findOne({email: req.body.email})
+    if(emailExists) return res.status(400).send('Email already exists')
+
+    //Checking if the adminName is already in the database
+    const adminNameExists = await Admin.findOne({userName: req.body.userName})
+    if(adminNameExists) return res.status(400).send('Username already exists')
+
+    //Hashing the password
+    const salt = await bcrypt.genSalt(10)
+    const hashPassword = await bcrypt.hash(req.body.password, salt)
+
     admin = new Admin({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         userName: req.body.userName,
         email: req.body.email,
-        password: req.body.password,
+        password: hashPassword,
     })
     admin.save().then(admin => {
         res.json(admin)
@@ -39,27 +61,28 @@ router.get('/get/:adminId', async (req, res) => {
     else res.json(admin)
 })
 
-//GET: LOGIN ADMIN
-router.get('/login/:adminEmail/:adminPassword', async (req, res) => {
-    const admin = await Admin.find({
-        email: req.params.adminEmail,
-        password: req.params.adminPassword
-    })
-    
-    if(!admin) res.status(404).send("Admin not found")
-    else res.json(admin)
+//POST: JWT LOGIN ADMIN
+router.post('/login', async (req, res) => {
+
+    req.body.name = 'admin'
+
+    //Validating admin email and password
+    const error = await validateAdminLogin(req.body)
+    if(error.message) return res.status(400).send(error.message)
+
+    //Checking if the admin email exists
+    const admin = await Admin.findOne({email: req.body.email})
+    if(!admin) return res.status(400).send('Email or password is wrong')
+
+    //Checking if password is correct
+    const validPass = await bcrypt.compare(req.body.password, admin.password);
+    if(!validPass) return res.status(400).send('Email or password is wrong')
+
+    //Create and assign a token
+    const token = jwt.sign({_id: admin._id}, process.env.ADMIN_TOKEN_SECRET)
+    res.header('auth-token', token).send(token)
+
 })
-
-/* //GET: LOGIN ADMIN QUERY
-router.get('/login', async (req, res) => {
-
-    const admin = await Admin.find({
-        email: req.query.email,
-        password: req.query.password
-    })
-    if(!admin) res.status(404).send("0")
-    else res.send(admin)
-}) */
 
 
 //UPDATE ADMIN BASED ON ID

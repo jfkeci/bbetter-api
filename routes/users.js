@@ -1,61 +1,102 @@
 const express = require('express')
 const router = express.Router()
-const {User, validateUser} = require('../models/user')
+
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+const User = require('../models/user')
+const {validateUser, validateLogin} = require('../models/user')
+
 
 //POST: CREATE A NEW USER
-router.post('/new', async (req, res) => {
+router.post('/register', async (req, res) => {
     
-    const users = await User.find()
+    //Validating the data before saving user
+    const error = await validateUser(req.body)
+    if(error.message) return res.status(400).send(error.message)
 
-    var userExists = false
+    //Checking if the user is already in the database
+    const emailExists = await User.findOne({email: req.body.email})
+    if(emailExists) return res.status(400).send('Email already exists')
+
+    //Checking if the userName is already in the database
+    const userNameExists = await User.findOne({userName: req.body.userName})
+    if(userNameExists) return res.status(400).send('Username already exists')
+
+    //Hashing the password
+    const salt = await bcrypt.genSalt(10)
+    const hashPassword = await bcrypt.hash(req.body.password, salt)
+
+    const user = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        userName: req.body.userName,
+        email: req.body.email,
+        password: hashPassword,
+        gender: req.body.gender,
+        age: req.body.age,
+        userNotesUrl: "",
+        userEventsUrl: "",
+        userSessionsUrl: ""
+    })
+    user.save().then(async(user) => {
+        
+        const uid = user._id;
+        const notesUrl = process.env.BASE_URL + "notes/all/" + uid;
+        const eventsUrl = process.env.BASE_URL + "events/all/" + uid;
+        const sessionsUrl = process.env.BASE_URL + "sessions/all/" + uid;
+
+        const updatedUser = await User.findByIdAndUpdate(
+            uid, {
+                userNotesUrl: notesUrl,
+                userEventsUrl: eventsUrl,
+                userSessionsUrl: sessionsUrl
+            },
+            {new: true}
+        )
+
+        res.json(updatedUser)
+
+    }).catch(error => {
+        res.status(500).send({
+            message: "User was not stored in the database" + error
+        })
+    })
+
+})
+
+//POST: JWT LOGIN USER
+router.post('/login', async (req, res) => {
+
+    req.body.name = 'user'
+
+    //Validating user email and password
+    const error = await validateLogin(req.body)
+    if(error.message) return res.status(400).send(error.message)
+
+    //Checking if the user email exists
+    const user = await User.findOne({email: req.body.email})
+    if(!user) return res.status(400).send('Email or password is wrong')
+
+    //Checking if password is correct
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+    if(!validPass) return res.status(400).send('Email or password is wrong')
+
+    //Create and assign a token
+    const token = jwt.sign({_id: user._id}, process.env.USER_TOKEN_SECRET)
+    res.header('auth-token', token).send(token)
+
+})
+
+//GET: LOGIN USER
+router.get('/login/:userEmail/:userPassword', async (req, res) => {
+    const user = await User.find({
+        email: req.params.userEmail,
+        password: req.params.userPassword
+    })
     
-    for(i=0; i<users.length; i++){
-        if(users[i].userName == req.body.userName || users[i].email == req.body.email){
-            userExists = true
-            break
-        }
-    }
-    if(!userExists){
-        const error = await validateUser(req.body)
-        if(error.message) res.status(400).send(error.message)
-
-        user = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            userName: req.body.userName,
-            email: req.body.email,
-            password: req.body.password,
-            gender: req.body.gender,
-            age: req.body.age,
-            userNotesUrl: "",
-            userEventsUrl: "",
-            userSessionsUrl: ""
-        })
-        user.save().then(async(user) => {
-            
-            const uid = user._id;
-            const notesUrl = "https://secret-temple-10001.herokuapp.com/bbetter/notes/all/" + uid;
-            const eventsUrl = "https://secret-temple-10001.herokuapp.com/bbetter/events/all/" + uid;
-            const sessionsUrl = "https://secret-temple-10001.herokuapp.com/bbetter/sessions/all/" + uid;
-
-            const updatedUser = await User.findByIdAndUpdate(
-                uid, {
-                    userNotesUrl: notesUrl,
-                    userEventsUrl: eventsUrl,
-                    userSessionsUrl: sessionsUrl
-                },
-                {new: true}
-            )
-
-            res.json(updatedUser)
-        }).catch(error => {
-            res.status(500).send({
-                message: "User was not stored in the database" + error
-            })
-        })
-    }else{
-        res.status(500).send("User already exists")
-    }
+    if(!user) res.status(404).send("User not found")
+    else res.json(user)
 })
 
 //GET: GET ALL USERS
@@ -77,29 +118,6 @@ router.get('/get/:userId', async (req, res) => {
     })
     else res.json(user)
 })
-
-//GET: LOGIN USER
-router.get('/login/:userEmail/:userPassword', async (req, res) => {
-    const user = await User.find({
-        email: req.params.userEmail,
-        password: req.params.userPassword
-    })
-    
-    if(!user) res.status(404).send("User not found")
-    else res.json(user)
-})
-
-/* //GET: LOGIN USER QUERY
-router.get('/login', async (req, res) => {
-
-    const user = await User.find({
-        email: req.query.email,
-        password: req.query.password
-    })
-    if(!user) res.status(404).send("0")
-    else res.send(user)
-})
- */
 
 //UPDATE USER BASED ON ID
 router.put('/update/:userId', async (req, res) => {

@@ -1,7 +1,4 @@
 const mongoose = require('mongoose')
-const Session = require('./session')
-const Note = require('./note')
-const Event = require('./event')
 const yup = require('yup')
 
 
@@ -73,10 +70,25 @@ const validateUser = (user) => {
         firstName: yup.string().required().min(1).max(255),
         lastName: yup.string().required().min(1).max(255),
         userName: yup.string().required().min(1).max(40),
-        email: yup.string().required().min(5).max(250),
+        email: yup.string().required().min(5).max(250).email(),
         password: yup.string().required().min(5).max(250),
         gender: yup.string().required().min(1).max(2),
         age: yup.number().required().min(10).max(120)
+    })
+    return schema
+        .validate(user)
+        .then(user => user)
+        .catch(error => {
+            return{
+                message: error.message
+            }
+        })
+}
+
+const validateLogin = (user) => {
+    const schema = yup.object().shape({
+        email: yup.string().required().min(5).max(250).email(),
+        password: yup.string().required().min(5).max(250),
     })
 
     return schema
@@ -91,5 +103,6 @@ const validateUser = (user) => {
 
 /* module.exports = new mongoose.model('User', UserSchema) //default export */
 
-exports.User = new mongoose.model('User', UserSchema) //named export
-exports.validateUser = validateUser
+module.exports = User = new mongoose.model('User', UserSchema) //named export
+module.exports.validateUser = validateUser
+module.exports.validateLogin = validateLogin
