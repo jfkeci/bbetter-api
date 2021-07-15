@@ -11,7 +11,7 @@ const adminVerify = require('./verifyAdminToken')
 
 
 //POST: ADMIN: CREATE A NEW EVENT
-router.post('/new', adminVerify, (req, res) => {
+router.post('/admin/new', adminVerify, (req, res) => {
 
     event = new Event({
         userId      : req.body.userId,
@@ -31,7 +31,7 @@ router.post('/new', adminVerify, (req, res) => {
 })
 
 //GET: ADMIN: GET ALL EVENTS
-router.get('/all', adminVerify, async (req, res) => {
+router.get('/admin/all', adminVerify, async (req, res) => {
 
     const events = await Event.find()
         .then((events) => res.json(events))
@@ -42,7 +42,7 @@ router.get('/all', adminVerify, async (req, res) => {
 })
 
 //GET: ADMIN: GET ALL USER EVENTS
-router.get('/all/:userId/:adminId', adminVerify, async (req, res) => {
+router.get('/admin/all/:userId', adminVerify, async (req, res) => {
 
     const events = await Event.find({
         userId: req.params.userId
@@ -55,7 +55,7 @@ router.get('/all/:userId/:adminId', adminVerify, async (req, res) => {
 })
 
 //GET: ADMIN: GET SINGLE EVENT BY ID
-router.get('/get/:eventId', adminVerify, async (req, res) => {
+router.get('/admin/get/:eventId', adminVerify, async (req, res) => {
 
     const event = await Event.findById(req.params.eventId)
 
@@ -66,7 +66,7 @@ router.get('/get/:eventId', adminVerify, async (req, res) => {
 })
 
 //GET: ADMIN: GET ALL EVENTS BASED ON SYNCED STATE
-router.get('/all/:userId/:synced', adminVerify, async (req, res) => {
+router.get('/admin/all/:userId/:synced', adminVerify, async (req, res) => {
 
     const events = await Event.find({
         synced: req.params.synced
@@ -79,7 +79,7 @@ router.get('/all/:userId/:synced', adminVerify, async (req, res) => {
 })
 
 //GET: ADMIN: GET ALL USER EVENTS BASED ON SYNCED STATE
-router.get('/all/:userId/:synced', adminVerify, async (req, res) => {
+router.get('/admin/all/:userId/:synced', adminVerify, async (req, res) => {
 
     const events = await Event.find({
         synced: req.params.synced
@@ -92,7 +92,7 @@ router.get('/all/:userId/:synced', adminVerify, async (req, res) => {
 })
 
 //PUT: ADMIN: UPDATE EVENT BASED ON ID
-router.put('/put/:eventId', adminVerify, async (req, res) => {
+router.put('/admin/put/:eventId', adminVerify, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
         req.params.eventId, 
@@ -114,7 +114,7 @@ router.put('/put/:eventId', adminVerify, async (req, res) => {
 })
 
 //PATCH: ADMIN: UPDATE EVENT BASED ON ID
-router.patch('/patch/:eventId', adminVerify, async (req, res) => {
+router.patch('/admin/patch/:eventId', adminVerify, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
         req.params.eventId, 
@@ -136,7 +136,7 @@ router.patch('/patch/:eventId', adminVerify, async (req, res) => {
 })
 
 //DELETE: ADMIN: DELETE EVENT
-router.delete('/delete/:eventId', adminVerify, async (req, res) => {
+router.delete('/admin/delete/:eventId', adminVerify, async (req, res) => {
 
     const event = await Event.findByIdAndRemove(req.params.eventId)
 
@@ -148,7 +148,7 @@ router.delete('/delete/:eventId', adminVerify, async (req, res) => {
 
 
 //GET: ADMIN: GET EVENTS DONE/PENDING
-router.get('/all/:checked', adminVerify, async (req, res) => {
+router.get('/admin/all/:checked', adminVerify, async (req, res) => {
 
     const events = await Event.find({
         eventChecked: req.params.checked
@@ -161,7 +161,7 @@ router.get('/all/:checked', adminVerify, async (req, res) => {
 })
 
 //GET: ADMIN: GET USER EVENTS DONE/PENDING
-router.get('/all/:userId/:checked/:adminId', adminVerify, async (req, res) => {
+router.get('/admin/all/:userId/:checked', adminVerify, async (req, res) => {
 
     const events = await Event.find({
         userId      : req.params.userId,
@@ -212,7 +212,7 @@ router.get('/all/:userId', userVerify, async (req, res) => {
 })
 
 //GET: USER: GET SINGLE EVENT BY ID
-router.get('/get/:eventId/:userId', userVerify, async (req, res) => {
+router.get('/get/:eventId', userVerify, async (req, res) => {
 
     const event = await Event.findById(req.params.eventId)
 
@@ -250,8 +250,8 @@ router.get('/all/:userId/:checked', userVerify,  async (req, res) => {
 
 })
 
-//PUT: ADMIN: UPDATE EVENT BASED ON ID
-router.put('/put/:eventId/:userId', userVerify, async (req, res) => {
+//PUT: USER: UPDATE EVENT BASED ON ID
+router.put('/put/:eventId', userVerify, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
         req.params.eventId, 
@@ -272,8 +272,8 @@ router.put('/put/:eventId/:userId', userVerify, async (req, res) => {
 
 })
 
-//PATCH: ADMIN: UPDATE EVENT BASED ON ID
-router.patch('/patch/:eventId/:userId', userVerify, async (req, res) => {
+//PATCH: USER: UPDATE EVENT BASED ON ID
+router.patch('/patch/:eventId', userVerify, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
         req.params.eventId, 
@@ -294,8 +294,8 @@ router.patch('/patch/:eventId/:userId', userVerify, async (req, res) => {
 
 })
 
-//DELETE: ADMIN: DELETE EVENT
-router.delete('/delete/:eventId/:userId', userVerify, async (req, res) => {
+//DELETE: USER: DELETE EVENT
+router.delete('/delete/:eventId', userVerify, async (req, res) => {
 
     const event = await Event.findByIdAndRemove(req.params.eventId)
 

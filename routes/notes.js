@@ -11,7 +11,7 @@ const adminVerify = require('./verifyAdminToken')
 
 
 //POST: ADMIN: CREATE A NEW NOTE
-router.post('/admin/new', verifyAdmin, (req, res) => {
+router.post('/admin/new', adminVerify, (req, res) => {
 
     note = new Note({
         userId      : req.body.userId,
@@ -29,7 +29,7 @@ router.post('/admin/new', verifyAdmin, (req, res) => {
 })
 
 //GET: ADMIN: GET ALL NOTES
-router.get('/admin/all', verifyAdmin, async (req, res) => {
+router.get('/admin/all', adminVerify, async (req, res) => {
 
     const notes = await Note.find()
         .then((notes) => res.json(notes))
@@ -51,7 +51,7 @@ router.get('/admin/all/:userId', adminVerify, async (req, res) => {
 })
 
 //GET: ADMIN: GET NOTE BY ID
-router.get('/admin/get/:noteId', verifyAdmin, async (req, res) => {
+router.get('/admin/get/:noteId', adminVerify, async (req, res) => {
 
     const note = await Note.findById(req.params.noteId)
 
@@ -116,7 +116,7 @@ router.get('/admin/all/:userId/:archived', adminVerify, async (req, res) => {
 })
 
 //PUT: ADMIN: UPDATE NOTE BASED ON ID
-router.put('/admin/put/:noteId', verifyAdmin, async (req, res) => {
+router.put('/admin/put/:noteId', adminVerify, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
         req.params.noteId, 
@@ -135,7 +135,7 @@ router.put('/admin/put/:noteId', verifyAdmin, async (req, res) => {
 
 })
 //PATCH: ADMIN: UPDATE NOTE BASED ON ID
-router.patch('/admin/patch/:noteId', verifyAdmin, async (req, res) => {
+router.patch('/admin/patch/:noteId', adminVerify, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
         req.params.noteId, 
@@ -155,7 +155,7 @@ router.patch('/admin/patch/:noteId', verifyAdmin, async (req, res) => {
 })
 
 //DELETE NOTE
-router.delete('/admin/delete/:noteId', verifyAdmin, async (req, res) => {
+router.delete('/admin/delete/:noteId', adminVerify, async (req, res) => {
 
     const note = await Note.findByIdAndRemove(req.params.noteId)
 
@@ -172,7 +172,7 @@ router.delete('/admin/delete/:noteId', verifyAdmin, async (req, res) => {
 
 
 //POST: USER: CREATE A NEW NOTE
-router.post('/new/:userId', verifyUser, (req, res) => {
+router.post('/new/:userId', userVerify, (req, res) => {
 
     note = new Note({
         userId      : req.params.userId,
@@ -201,7 +201,7 @@ router.get('/all/:userId', userVerify, async (req, res) => {
 })
 
 //GET: USER: GET NOTE BY ID
-router.get('/get/:noteId/:userId', verifyUser, async (req, res) => {
+router.get('/get/:noteId/:userId', userVerify, async (req, res) => {
 
     const note = await Note.find({
         _id     : req.params.noteId,
@@ -242,7 +242,7 @@ router.get('/all/:userId/:archived', userVerify, async (req, res) => {
 })
 
 //PUT: USER: UPDATE NOTE BASED ON ID
-router.put('/put/:noteId', verifyUser, async (req, res) => {
+router.put('/put/:noteId', userVerify, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
         req.params.noteId, 
@@ -261,7 +261,7 @@ router.put('/put/:noteId', verifyUser, async (req, res) => {
 
 })
 //PATCH: USER: UPDATE NOTE BASED ON ID
-router.patch('/patch/:noteId', verifyUser, async (req, res) => {
+router.patch('/patch/:noteId', userVerify, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
         req.params.noteId, 
@@ -281,7 +281,7 @@ router.patch('/patch/:noteId', verifyUser, async (req, res) => {
 })
 
 //DELETE NOTE
-router.delete('/delete/:noteId', verifyUser, async (req, res) => {
+router.delete('/delete/:noteId', userVerify, async (req, res) => {
 
     const note = await Note.findByIdAndRemove(req.params.noteId)
 

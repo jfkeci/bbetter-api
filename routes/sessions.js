@@ -9,7 +9,7 @@ const adminVerify = require('./verifyAdminToken')
 /*------------------------------------------------------------------------------------------ */
 
 //POST: ADMIN: CREATE A NEW SESSION
-router.post('/new', adminVerify, (req, res) => {
+router.post('/admin/new', adminVerify, (req, res) => {
 
     session = new Session({
         userId          : req.body.userId,
@@ -27,7 +27,7 @@ router.post('/new', adminVerify, (req, res) => {
 })
 
 //GET: ADMIN: GET ALL SESSIONS
-router.get('/all', adminVerify, async (req, res) => {
+router.get('/admin/all', adminVerify, async (req, res) => {
 
     const sessions = await Session.find()
         .then((sessions) => res.json(sessions))
@@ -38,7 +38,7 @@ router.get('/all', adminVerify, async (req, res) => {
 })
 
 //GET: ADMIN: GET SESSION BY ID
-router.get('/:sessionId', adminVerify, async (req, res) => {
+router.get('/admin/:sessionId', adminVerify, async (req, res) => {
 
     const session = await Session.findById(req.params.sessionId)
 
@@ -49,7 +49,7 @@ router.get('/:sessionId', adminVerify, async (req, res) => {
 })
 
 //GET: ADMIN: GET ALL SESSIONS FROM USER BASED ON SYNCED STATE
-router.get('/all/:synced', adminVerify, async (req, res) => {
+router.get('/admin/all/:synced', adminVerify, async (req, res) => {
 
     const sessions = await Session.find({
         synced: req.params.synced
@@ -62,7 +62,7 @@ router.get('/all/:synced', adminVerify, async (req, res) => {
 })
 
 //GET: ADMIN: GET ALL SESSIONS FROM USER BASED ON SYNCED STATE
-router.get('/all/:synced/:userId/:adminId', adminVerify, async (req, res) => {
+router.get('/admin/all/:synced/:userId', adminVerify, async (req, res) => {
 
     const sessions = await Session.find({
         userId: req.params.userId,
@@ -76,7 +76,7 @@ router.get('/all/:synced/:userId/:adminId', adminVerify, async (req, res) => {
 })
 
 //PUT: ADMIN: UPDATE SESSION WITH PUT
-router.put('/put/:sessionId', adminVerify, async (req, res) => {
+router.put('/admin/put/:sessionId', adminVerify, async (req, res) => {
 
     const updatedSession = await Session.findByIdAndUpdate(
         req.params.sessionId, 
@@ -94,7 +94,7 @@ router.put('/put/:sessionId', adminVerify, async (req, res) => {
 })
 
 //PATCH: ADMIN: UPDATE SESSION WITH PATCH
-router.patch('/patch/:sessionId', adminVerify, async (req, res) => {
+router.patch('/admin/patch/:sessionId', adminVerify, async (req, res) => {
 
     const updatedSession = await Session.findByIdAndUpdate(
         req.params.sessionId, 
@@ -113,7 +113,7 @@ router.patch('/patch/:sessionId', adminVerify, async (req, res) => {
 })
 
 //DELETE: ADMIN: DELETE SESSION
-router.delete('/delete/:sessionId', adminVerify, async (req, res) => {
+router.delete('/admin/delete/:sessionId', adminVerify, async (req, res) => {
 
     const session = await Session.findByIdAndRemove(req.params.sessionId)
 
@@ -224,7 +224,7 @@ router.patch('/patch/:sessionId/:userId', userVerify, async (req, res) => {
 })
 
 //DELETE: USER: DELETE USER SESSION
-router.delete('/delete/:sessionId/:userId', adminVerify, async (req, res) => {
+router.delete('/delete/:sessionId/:userId', userVerify, async (req, res) => {
 
     const session = await Session.findByIdAndRemove(req.params.sessionId)
     

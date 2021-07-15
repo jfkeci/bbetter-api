@@ -101,7 +101,7 @@ router.get('/login/:userEmail/:userPassword', async (req, res) => {
 }) */
 
 //GET: GET ALL USERS
-router.get('/all', adminVerify, async (req, res) => {
+router.get('/admin/all', adminVerify, async (req, res) => {
     const users = await User.find()
         .then((users) => res.json(users))
         .catch((error) => {
@@ -112,7 +112,7 @@ router.get('/all', adminVerify, async (req, res) => {
 })
 
 //GET: GET USER BY ID
-router.get('/get/:userId', adminVerify, async (req, res) => {
+router.get('/admin/get/:userId', adminVerify, async (req, res) => {
     const user = await User.findById(req.params.userId)
     if(!user) res.status(404).send({
         message: "User not found"
@@ -121,7 +121,7 @@ router.get('/get/:userId', adminVerify, async (req, res) => {
 })
 
 //UPDATE USER BASED ON ID
-router.put('/update/:userId', adminVerify, async (req, res) => {
+router.put('/admin/update/:userId', adminVerify, async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
         req.params.userId, {
             firstName: req.body.firstName,
@@ -142,7 +142,7 @@ router.put('/update/:userId', adminVerify, async (req, res) => {
 })
 
 //DELETE USER
-router.delete('/delete/:userId', adminVerify, async (req, res) => {
+router.delete('/admin/delete/:userId', adminVerify, async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.userId)
     if(!user) res.status(404).send({
         message: "User not found"
