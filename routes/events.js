@@ -227,7 +227,7 @@ router.get('/all/:userId/:synced', userVerify, async (req, res) => {
 
     const events = await Event.find({
         userId      : req.params.userId,
-        synced: req.params.synced
+        synced      : req.params.synced
     }).exec()
         .then((events) => res.json(events))
         .catch((error) => {
