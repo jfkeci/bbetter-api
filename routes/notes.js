@@ -1,6 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const Note = require('../models/note')
+const userVerify = require('./verifyUserToken')
+const adminVerify = require('./verifyAdminToken')
+
+/*------------------------------------------------------------------------------------------ */
+/*------------------------------------ADMIN------------------------------------------------- */
+/*------------------------------------------------------------------------------------------ */
 
 //POST: CREATE A NEW NOTE
 router.post('/new', (req, res) => {
@@ -80,6 +86,12 @@ router.get('/all/:userId', async (req, res) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
         })
 })
+
+/*------------------------------------------------------------------------------------------ */
+/*-------------------------------------USER------------------------------------------------- */
+/*------------------------------------------------------------------------------------------ */
+
+
 //GET: GET ALL NOTES FROM USER BASED ON SYNCED STATE
 router.get('/all/:userId/:synced', async (req, res) => {
     const notes = await Note.find({
