@@ -9,7 +9,7 @@ const {validateAdmin, validateAdminLogin} = require('../models/admin')
 
 
 //POST: NEW ADMIN
-router.post('/new', async (req, res) => {
+router.post('/register', async (req, res) => {
 
     //Validating the data before saving admin
     const error = await validateAdmin(req.body)
@@ -41,26 +41,6 @@ router.post('/new', async (req, res) => {
     })
 })
 
-//GET: GET ALL ADMINS
-router.get('/all', async (req, res) => {
-    const admins = await Admin.find()
-        .then((admins) => res.json(admins))
-        .catch((error) => {
-            res.status(500).send({
-                message: `Something went wrong getting the data, error: ${error}`
-            })
-        })
-})
-
-//GET: GET ADMIN BY ID
-router.get('/get/:adminId', async (req, res) => {
-    const admin = await Admin.findById(req.params.adminId)
-    if(!admin) res.status(404).send({
-        message: "Admin not found"
-    })
-    else res.json(admin)
-})
-
 //POST: JWT LOGIN ADMIN
 router.post('/login', async (req, res) => {
 
@@ -83,6 +63,28 @@ router.post('/login', async (req, res) => {
     res.header('auth-token', token).send(token)
 
 })
+
+//GET: GET ALL ADMINS
+router.get('/all', async (req, res) => {
+    const admins = await Admin.find()
+        .then((admins) => res.json(admins))
+        .catch((error) => {
+            res.status(500).send({
+                message: `Something went wrong getting the data, error: ${error}`
+            })
+        })
+})
+
+//GET: GET ADMIN BY ID
+router.get('/get/:adminId', async (req, res) => {
+    const admin = await Admin.findById(req.params.adminId)
+    if(!admin) res.status(404).send({
+        message: "Admin not found"
+    })
+    else res.json(admin)
+})
+
+
 
 
 //UPDATE ADMIN BASED ON ID

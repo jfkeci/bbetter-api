@@ -3,6 +3,7 @@ const router = express.Router()
 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const adminVerify = require('./verifyAdminToken')
 
 const User = require('../models/user')
 const {validateUser, validateLogin} = require('../models/user')
@@ -88,7 +89,7 @@ router.post('/login', async (req, res) => {
 
 })
 
-//GET: LOGIN USER
+/* //GET: LOGIN USER
 router.get('/login/:userEmail/:userPassword', async (req, res) => {
     const user = await User.find({
         email: req.params.userEmail,
@@ -97,10 +98,10 @@ router.get('/login/:userEmail/:userPassword', async (req, res) => {
     
     if(!user) res.status(404).send("User not found")
     else res.json(user)
-})
+}) */
 
 //GET: GET ALL USERS
-router.get('/all', async (req, res) => {
+router.get('/all', adminVerify, async (req, res) => {
     const users = await User.find()
         .then((users) => res.json(users))
         .catch((error) => {
@@ -111,7 +112,7 @@ router.get('/all', async (req, res) => {
 })
 
 //GET: GET USER BY ID
-router.get('/get/:userId', async (req, res) => {
+router.get('/get/:userId', adminVerify, async (req, res) => {
     const user = await User.findById(req.params.userId)
     if(!user) res.status(404).send({
         message: "User not found"
@@ -120,7 +121,7 @@ router.get('/get/:userId', async (req, res) => {
 })
 
 //UPDATE USER BASED ON ID
-router.put('/update/:userId', async (req, res) => {
+router.put('/update/:userId', adminVerify, async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
         req.params.userId, {
             firstName: req.body.firstName,
@@ -141,7 +142,7 @@ router.put('/update/:userId', async (req, res) => {
 })
 
 //DELETE USER
-router.delete('/delete/:userId', async (req, res) => {
+router.delete('/delete/:userId', adminVerify, async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.userId)
     if(!user) res.status(404).send({
         message: "User not found"
