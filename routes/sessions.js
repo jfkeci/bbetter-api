@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Session = require('../models/session')
-const userVerify = require('./verifyUserToken')
+/* const userVerify = require('./verifyUserToken') */
 const adminVerify = require('./verifyAdminToken')
 
 /*------------------------------------------------------------------------------------------ */
@@ -129,8 +129,10 @@ router.delete('/admin/delete/:sessionId', adminVerify, async (req, res) => {
 /*------------------------------------------------------------------------------------------ */
 
 
+
+
 //POST: USER: CREATE SESSION
-router.post('/new/:userId', userVerify, (req, res) => {
+router.post('/new/:userId'/* , userVerify */, (req, res) => {
 
     session = new Session({
         userId          : req.params.userId,
@@ -148,7 +150,7 @@ router.post('/new/:userId', userVerify, (req, res) => {
 })
 
 //GET: USER: GET ALL SESSIONS FROM USER
-router.get('/all/:userId', userVerify, async (req, res) => {
+router.get('/all/:userId'/* , userVerify */, async (req, res) => {
 
     const sessions = await Session.find({userId: req.params.userId}).exec()
         .then((sessions) => res.json(sessions))
@@ -159,7 +161,7 @@ router.get('/all/:userId', userVerify, async (req, res) => {
 })
 
 //GET: USER: GET SESSION BY ID
-router.get('/:sessionId/:userId', userVerify, async (req, res) => {
+router.get('/:sessionId/:userId'/* , userVerify */, async (req, res) => {
 
     const session = await Session.findById(req.params.sessionId)
 
@@ -170,7 +172,7 @@ router.get('/:sessionId/:userId', userVerify, async (req, res) => {
 })
 
 //GET: USER: GET ALL SESSIONS FROM USER BASED ON SYNCED STATE
-router.get('/all/:userId/:synced', userVerify, async (req, res) => {
+router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
 
     const sessions = await Session.find({
         userId: req.params.userId,
@@ -184,7 +186,7 @@ router.get('/all/:userId/:synced', userVerify, async (req, res) => {
 })
 
 //PUT: USER: UPDATE USER SESSION BASED ON ID
-router.put('/put/:sessionId/:userId', userVerify, async (req, res) => {
+router.put('/put/:sessionId/:userId'/* , userVerify */, async (req, res) => {
 
     const updatedSession = await Session.findByIdAndUpdate(
         req.params.sessionId, 
@@ -204,7 +206,7 @@ router.put('/put/:sessionId/:userId', userVerify, async (req, res) => {
 })
 
 //PATCH: USER: UPDATE USER SESSION BASED ON ID
-router.patch('/patch/:sessionId/:userId', userVerify, async (req, res) => {
+router.patch('/patch/:sessionId/:userId'/* , userVerify */, async (req, res) => {
 
     const updatedSession = await Session.findByIdAndUpdate(
         req.params.sessionId, 
@@ -224,7 +226,7 @@ router.patch('/patch/:sessionId/:userId', userVerify, async (req, res) => {
 })
 
 //DELETE: USER: DELETE USER SESSION
-router.delete('/delete/:sessionId/:userId', userVerify, async (req, res) => {
+router.delete('/delete/:sessionId/:userId'/* , userVerify */, async (req, res) => {
 
     const session = await Session.findByIdAndRemove(req.params.sessionId)
     

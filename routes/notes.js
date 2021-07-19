@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Note = require('../models/note')
-const userVerify = require('./verifyUserToken')
+/* const userVerify = require('./verifyUserToken') */
 const adminVerify = require('./verifyAdminToken')
 
 
@@ -172,7 +172,7 @@ router.delete('/admin/delete/:noteId', adminVerify, async (req, res) => {
 
 
 //POST: USER: CREATE A NEW NOTE
-router.post('/new/:userId', userVerify, (req, res) => {
+router.post('/new/:userId'/* , userVerify */, (req, res) => {
 
     note = new Note({
         userId      : req.params.userId,
@@ -190,7 +190,7 @@ router.post('/new/:userId', userVerify, (req, res) => {
 })
 
 //GET: USER: GET ALL NOTES
-router.get('/all/:userId', userVerify, async (req, res) => {
+router.get('/all/:userId'/* , userVerify */, async (req, res) => {
 
     const notes = await Note.find({userId: req.params.userId})
         .then((notes) => res.json(notes))
@@ -201,7 +201,7 @@ router.get('/all/:userId', userVerify, async (req, res) => {
 })
 
 //GET: USER: GET NOTE BY ID
-router.get('/get/:noteId/:userId', userVerify, async (req, res) => {
+router.get('/get/:noteId/:userId'/* , userVerify */, async (req, res) => {
 
     const note = await Note.find({
         _id     : req.params.noteId,
@@ -215,7 +215,7 @@ router.get('/get/:noteId/:userId', userVerify, async (req, res) => {
 })
 
 //GET: USER: GET ALL USER NOTES BASED ON SYNCED STATE
-router.get('/all/:userId/:synced', userVerify, async (req, res) => {
+router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
 
     const notes = await Note.find({
         userId      : req.params.userId,
@@ -228,7 +228,7 @@ router.get('/all/:userId/:synced', userVerify, async (req, res) => {
 
 })
 //GET: USER: GET ALL USER NOTES BASED ON ARCHIVED STATE
-router.get('/all/:userId/:archived', userVerify, async (req, res) => {
+router.get('/all/:userId/:archived'/* , userVerify */, async (req, res) => {
 
     const notes = await Note.find({
         userId        : req.params.userId,
@@ -242,7 +242,7 @@ router.get('/all/:userId/:archived', userVerify, async (req, res) => {
 })
 
 //PUT: USER: UPDATE NOTE BASED ON ID
-router.put('/put/:noteId', userVerify, async (req, res) => {
+router.put('/put/:noteId'/* , userVerify */, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
         req.params.noteId, 
@@ -261,7 +261,7 @@ router.put('/put/:noteId', userVerify, async (req, res) => {
 
 })
 //PATCH: USER: UPDATE NOTE BASED ON ID
-router.patch('/patch/:noteId', userVerify, async (req, res) => {
+router.patch('/patch/:noteId'/* , userVerify */, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
         req.params.noteId, 
@@ -281,7 +281,7 @@ router.patch('/patch/:noteId', userVerify, async (req, res) => {
 })
 
 //DELETE NOTE
-router.delete('/delete/:noteId', userVerify, async (req, res) => {
+router.delete('/delete/:noteId'/* , userVerify */, async (req, res) => {
 
     const note = await Note.findByIdAndRemove(req.params.noteId)
 

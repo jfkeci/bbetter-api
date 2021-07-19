@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Event = require('../models/event')
-const userVerify = require('./verifyUserToken')
+/* const userVerify = require('./verifyUserToken') */
 const adminVerify = require('./verifyAdminToken')
 
 
@@ -181,7 +181,7 @@ router.get('/admin/all/:userId/:checked', adminVerify, async (req, res) => {
 
 
 //POST: USER: CREATE A NEW EVENT
-router.post('/new/:userId', userVerify, (req, res) => {
+router.post('/new/:userId'/* , userVerify */, (req, res) => {
 
     event = new Event({
         userId      : req.params.userId,
@@ -201,7 +201,7 @@ router.post('/new/:userId', userVerify, (req, res) => {
 })
 
 //GET: USER: GET ALL EVENTS FROM USER
-router.get('/all/:userId', userVerify, async (req, res) => {
+router.get('/all/:userId'/* , userVerify */, async (req, res) => {
 
     const events = await Event.find({userId: req.params.userId}).exec()
         .then((events) => res.json(events))
@@ -212,7 +212,7 @@ router.get('/all/:userId', userVerify, async (req, res) => {
 })
 
 //GET: USER: GET SINGLE EVENT BY ID
-router.get('/get/:eventId', userVerify, async (req, res) => {
+router.get('/get/:eventId'/* , userVerify */, async (req, res) => {
 
     const event = await Event.findById(req.params.eventId)
 
@@ -223,7 +223,7 @@ router.get('/get/:eventId', userVerify, async (req, res) => {
 })
 
 //GET: USER: GET ALL USER EVENTS BASED ON SYNCED STATE
-router.get('/all/:userId/:synced', userVerify, async (req, res) => {
+router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
 
     const events = await Event.find({
         userId      : req.params.userId,
@@ -237,7 +237,7 @@ router.get('/all/:userId/:synced', userVerify, async (req, res) => {
 })
 
 //GET: USER: GET ALL USER EVENTS DONE/PENDING
-router.get('/all/:userId/:checked', userVerify,  async (req, res) => {
+router.get('/all/:userId/:checked'/* , userVerify */,  async (req, res) => {
 
     const events = await Event.find({
         userId      : req.params.userId,
@@ -251,7 +251,7 @@ router.get('/all/:userId/:checked', userVerify,  async (req, res) => {
 })
 
 //PUT: USER: UPDATE EVENT BASED ON ID
-router.put('/put/:eventId', userVerify, async (req, res) => {
+router.put('/put/:eventId'/* , userVerify */, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
         req.params.eventId, 
@@ -273,7 +273,7 @@ router.put('/put/:eventId', userVerify, async (req, res) => {
 })
 
 //PATCH: USER: UPDATE EVENT BASED ON ID
-router.patch('/patch/:eventId', userVerify, async (req, res) => {
+router.patch('/patch/:eventId'/* , userVerify */, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
         req.params.eventId, 
@@ -295,7 +295,7 @@ router.patch('/patch/:eventId', userVerify, async (req, res) => {
 })
 
 //DELETE: USER: DELETE EVENT
-router.delete('/delete/:eventId', userVerify, async (req, res) => {
+router.delete('/delete/:eventId'/* , userVerify */, async (req, res) => {
 
     const event = await Event.findByIdAndRemove(req.params.eventId)
 

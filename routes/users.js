@@ -24,9 +24,9 @@ router.post('/register', async (req, res) => {
     const userNameExists = await User.findOne({userName: req.body.userName})
     if(userNameExists) return res.status(400).send('Username already exists')
 
-    //Hashing the password
+    /* //Hashing the password
     const salt = await bcrypt.genSalt(10)
-    const hashPassword = await bcrypt.hash(req.body.password, salt)
+    const hashPassword = await bcrypt.hash(req.body.password, salt) */
 
     const user = new User({
         firstName: req.body.firstName,
@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
 
 })
 
-/* //GET: LOGIN USER
+//GET: LOGIN USER
 router.get('/login/:userEmail/:userPassword', async (req, res) => {
     const user = await User.find({
         email: req.params.userEmail,
@@ -98,7 +98,7 @@ router.get('/login/:userEmail/:userPassword', async (req, res) => {
     
     if(!user) res.status(404).send("User not found")
     else res.json(user)
-}) */
+})
 
 //GET: GET ALL USERS
 router.get('/admin/all', adminVerify, async (req, res) => {
