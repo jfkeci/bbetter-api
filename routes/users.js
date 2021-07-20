@@ -112,7 +112,7 @@ router.get('/admin/all', adminVerify, async (req, res) => {
 })
 
 //GET: GET SINGLE USER
-router.get('/get/:userId', adminVerify, async (req, res) => {
+router.get('/get/:userId', /* adminVerify, */ async (req, res) => {
     const users = await User.find({userId: req.params.userId})
         .then((users) => res.json(users))
         .catch((error) => {
