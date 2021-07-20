@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
         lastName: req.body.lastName,
         userName: req.body.userName,
         email: req.body.email,
-        password: hashPassword,
+        password: req.body.password,
         gender: req.body.gender,
         age: req.body.age,
         userNotesUrl: "",
@@ -111,9 +111,20 @@ router.get('/admin/all', adminVerify, async (req, res) => {
         })
 })
 
+//GET: GET ALL USERS
+router.get('/all', async (req, res) => {
+    const users = await User.find()
+        .then((users) => res.json(users))
+        .catch((error) => {
+            res.status(500).send({
+                message: `Something went wrong getting the data, error: ${error}`
+            })
+        })
+})
+
 //GET: GET SINGLE USER
-router.get('/get/:userId', /* adminVerify, */ async (req, res) => {
-    const users = await User.find({userId: req.params.userId})
+router.get('/get/:userId', async (req, res) => {
+    const users = await User.find({_id: req.params.userId})
         .then((users) => res.json(users))
         .catch((error) => {
             res.status(500).send({
