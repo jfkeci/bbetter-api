@@ -111,6 +111,17 @@ router.get('/admin/all', adminVerify, async (req, res) => {
         })
 })
 
+//GET: GET SINGLE USER
+router.get('/get/:userId', adminVerify, async (req, res) => {
+    const users = await User.find({userId: req.params.userId})
+        .then((users) => res.json(users))
+        .catch((error) => {
+            res.status(500).send({
+                message: `Something went wrong getting the data, error: ${error}`
+            })
+        })
+})
+
 //GET: GET USER BY ID
 router.get('/admin/get/:userId', adminVerify, async (req, res) => {
     const user = await User.findById(req.params.userId)
@@ -121,7 +132,7 @@ router.get('/admin/get/:userId', adminVerify, async (req, res) => {
 })
 
 //UPDATE USER BASED ON ID
-router.put('/admin/update/:userId', adminVerify, async (req, res) => {
+router.put('/admin/update/:userId', /* adminVerify, */ async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
         req.params.userId, {
             firstName: req.body.firstName,
@@ -149,6 +160,7 @@ router.delete('/admin/delete/:userId', adminVerify, async (req, res) => {
     })
     else res.json(user)
 })
+
 
 
 module.exports = router;
