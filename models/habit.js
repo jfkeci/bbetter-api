@@ -14,12 +14,18 @@ const HabitSchema = new mongoose.Schema({
         minlength: 0,
         maxlength: 155
     },
+/*     start: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 2
+    }, */
     habitDates: [{
         date: Date
     }],
-    intentions:[{
+    intentions: [{
         intention: String
     }]
-}, {timestamps: true})
+}, { timestamps: true })
 
 module.exports = new mongoose.model('Habit', HabitSchema)
