@@ -66,7 +66,7 @@ router.post('/register', async (req, res) => {
 
 })
 
-//POST: JWT LOGIN USER
+/* //POST: JWT LOGIN USER
 router.post('/login', async (req, res) => {
 
     req.body.name = 'user'
@@ -87,7 +87,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({_id: user._id}, process.env.USER_TOKEN_SECRET)
     res.header('auth-token', token).send(token)
 
-})
+}) */
 
 //GET: LOGIN USER
 router.get('/login/:userEmail/:userPassword', async (req, res) => {
