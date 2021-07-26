@@ -13,7 +13,6 @@ const adminVerify = require('./verifyAdminToken')
 router.post('/new', adminVerify, (req, res) => {
 
     question = new Question({
-        questionGroup  : req.body.questionGroup,
         questionNumber  : req.body.questionNumber,
         question: req.body.question
     })
@@ -47,34 +46,7 @@ router.get('/get/:qId', async (req, res) => {
 
 })
 
-//GET:  GET QUESTIONS BY GROUP AND NUMBER
-router.get('/get/:questionGroup/:questionNumber', async (req, res) => {
-
-    const question = await Question.find({
-        questionGroup: req.params.questionGroup,
-        questionNumber: req.params.questionNumber
-    })
-
-    if(!question) return res.status(404).send("Question not found")
-
-    res.json(question)
-
-})
-
-//GET:  GET QUESTIONS BY GROUP
-router.get('/get/:questionGroup', async (req, res) => {
-
-    const question = await Question.find({
-        questionGroup: req.params.questionGroup
-    })
-
-    if(!question) return res.status(404).send("Questions not found")
-
-    res.json(question)
-
-})
-
-//GET:  GET QUESTIONS BY GROUP AND NUMBER
+//GET:  GET QUESTIONS AND NUMBER
 router.get('/get/:questionNumber', async (req, res) => {
 
     const question = await Question.find({
@@ -93,7 +65,6 @@ router.put('/update/:qId', adminVerify, async (req, res) => {
     const updatedQuestion = await Question.findByIdAndUpdate(
         req.params.qId, 
         {
-            questionGroup  : req.body.questionGroup,
             questionNumber  : req.body.questionNumber,
             question: req.body.question
         },
