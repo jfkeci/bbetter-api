@@ -14,7 +14,8 @@ router.post('/new', adminVerify, (req, res) => {
 
     question = new Question({
         questionNumber  : req.body.questionNumber,
-        question: req.body.question
+        question: req.body.question,
+        answer: ""
     })
     question.save().then(question => {
         res.json(question)
@@ -46,7 +47,7 @@ router.get('/get/:qId', async (req, res) => {
 
 })
 
-//GET:  GET QUESTIONS AND NUMBER
+//GET:  GET QUESTIONS BY NUMBER
 router.get('/get/:questionNumber', async (req, res) => {
 
     const question = await Question.find({

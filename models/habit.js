@@ -8,30 +8,18 @@ const HabitSchema = new mongoose.Schema({
         minlength: 0,
         maxlength: 50
     },
-    habit: {
+    habitTitle: {
         type: String,
         required: true,
         minlength: 0,
         maxlength: 155
     },
-    questionGroup: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 10
-    },
-    questionNumber: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 10
-    },
-    questionAnswer: {
-        type: String,
-        required: true,
-        minlength: 0,
-        maxlength: 155
-    }
+    habitDates: [{
+        date: Date
+    }],
+    intentions:[{
+        intention: String
+    }]
 }, {timestamps: true})
 
 module.exports = new mongoose.model('Habit', HabitSchema)

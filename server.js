@@ -14,6 +14,7 @@ const notesRoute = require('./routes/notes')
 const eventsRoute = require('./routes/events')
 const sessionsRoute = require('./routes/sessions')
 const questionsRoute = require('./routes/questions')
+const habitsRoute = require('./routes/habits')
 
 
 const PORT = process.env.PORT || 3000
@@ -45,6 +46,7 @@ app.use('/bbetter/notes', notesRoute)
 app.use('/bbetter/events', eventsRoute)
 app.use('/bbetter/sessions', sessionsRoute)
 app.use('/bbetter/questions', questionsRoute)
+app.use('/bbetter/habits', habitsRoute)
 
 //connect to mongodb atlas
 mongoose
