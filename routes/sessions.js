@@ -12,11 +12,11 @@ const adminVerify = require('./verifyAdminToken')
 router.post('/admin/new', adminVerify, (req, res) => {
 
     session = new Session({
-        userId          : req.body.userId,
-        sessionLength   : req.body.sessionLength,
-        sessionPoints   : req.body.sessionPoints,
-        sessionFinished : req.body.sessionFinished,
-        synced          : req.body.synced
+        userId: req.body.userId,
+        sessionLength: req.body.sessionLength,
+        sessionPoints: req.body.sessionPoints,
+        sessionFinished: req.body.sessionFinished,
+        synced: req.body.synced
     })
     session.save().then(session => {
         res.json(session)
@@ -42,7 +42,7 @@ router.get('/admin/:sessionId', adminVerify, async (req, res) => {
 
     const session = await Session.findById(req.params.sessionId)
 
-    if(!session) return res.status(404).send("Session not found")
+    if (!session) return res.status(404).send("Session not found")
 
     res.json(session)
 
@@ -79,16 +79,16 @@ router.get('/admin/all/:synced/:userId', adminVerify, async (req, res) => {
 router.put('/admin/put/:sessionId', adminVerify, async (req, res) => {
 
     const updatedSession = await Session.findByIdAndUpdate(
-        req.params.sessionId, 
+        req.params.sessionId,
         {
-            sessionLength   : req.body.sessionLength,
-            sessionPoints   : req.body.sessionPoints,
-            sessionFinished : req.body.sessionFinished,
-            synced          : req.body.synced
+            sessionLength: req.body.sessionLength,
+            sessionPoints: req.body.sessionPoints,
+            sessionFinished: req.body.sessionFinished,
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
-    if(!updatedSession) return res.status(404).send("Session not found")
+    if (!updatedSession) return res.status(404).send("Session not found")
     res.json(updatedSession)
 
 })
@@ -97,17 +97,17 @@ router.put('/admin/put/:sessionId', adminVerify, async (req, res) => {
 router.patch('/admin/patch/:sessionId', adminVerify, async (req, res) => {
 
     const updatedSession = await Session.findByIdAndUpdate(
-        req.params.sessionId, 
+        req.params.sessionId,
         {
-            sessionLength   : req.body.sessionLength,
-            sessionPoints   : req.body.sessionPoints,
-            sessionFinished : req.body.sessionFinished,
-            synced          : req.body.synced
+            sessionLength: req.body.sessionLength,
+            sessionPoints: req.body.sessionPoints,
+            sessionFinished: req.body.sessionFinished,
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
-    if(!updatedSession) return res.status(404).send("Session not found")
-    
+    if (!updatedSession) return res.status(404).send("Session not found")
+
     res.json(updatedSession)
 
 })
@@ -117,8 +117,8 @@ router.delete('/admin/delete/:sessionId', adminVerify, async (req, res) => {
 
     const session = await Session.findByIdAndRemove(req.params.sessionId)
 
-    if(!session) return res.status(404).send("Session not found")
-    
+    if (!session) return res.status(404).send("Session not found")
+
     res.json(session)
 
 })
@@ -135,11 +135,11 @@ router.delete('/admin/delete/:sessionId', adminVerify, async (req, res) => {
 router.post('/new/:userId'/* , userVerify */, (req, res) => {
 
     session = new Session({
-        userId          : req.params.userId,
-        sessionLength   : req.body.sessionLength,
-        sessionPoints   : req.body.sessionPoints,
-        sessionFinished : req.body.sessionFinished,
-        synced          : req.body.synced
+        userId: req.params.userId,
+        sessionLength: req.body.sessionLength,
+        sessionPoints: req.body.sessionPoints,
+        sessionFinished: req.body.sessionFinished,
+        synced: req.body.synced
     })
     session.save().then(session => {
         res.json(session)
@@ -152,7 +152,7 @@ router.post('/new/:userId'/* , userVerify */, (req, res) => {
 //GET: USER: GET ALL SESSIONS FROM USER
 router.get('/all/:userId'/* , userVerify */, async (req, res) => {
 
-    const sessions = await Session.find({userId: req.params.userId}).exec()
+    const sessions = await Session.find({ userId: req.params.userId }).exec()
         .then((sessions) => res.json(sessions))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
@@ -165,7 +165,7 @@ router.get('/:sessionId/:userId'/* , userVerify */, async (req, res) => {
 
     const session = await Session.findById(req.params.sessionId)
 
-    if(!session) return res.status(404).send("Session not found")
+    if (!session) return res.status(404).send("Session not found")
 
     res.json(session)
 
@@ -189,17 +189,17 @@ router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
 router.put('/put/:sessionId/:userId'/* , userVerify */, async (req, res) => {
 
     const updatedSession = await Session.findByIdAndUpdate(
-        req.params.sessionId, 
+        req.params.sessionId,
         {
-            sessionLength   : req.body.sessionLength,
-            sessionPoints   : req.body.sessionPoints,
-            sessionFinished : req.body.sessionFinished,
-            synced          : req.body.synced
+            sessionLength: req.body.sessionLength,
+            sessionPoints: req.body.sessionPoints,
+            sessionFinished: req.body.sessionFinished,
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedSession) return res.status(404).send("Session not found")
+    if (!updatedSession) return res.status(404).send("Session not found")
 
     res.json(updatedSession)
 
@@ -209,17 +209,17 @@ router.put('/put/:sessionId/:userId'/* , userVerify */, async (req, res) => {
 router.patch('/patch/:sessionId/:userId'/* , userVerify */, async (req, res) => {
 
     const updatedSession = await Session.findByIdAndUpdate(
-        req.params.sessionId, 
+        req.params.sessionId,
         {
             sessionLength: req.body.sessionLength,
             sessionPoints: req.body.sessionPoints,
             sessionFinished: req.body.sessionFinished,
             synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedSession) return res.status(404).send("Session not found")
+    if (!updatedSession) return res.status(404).send("Session not found")
 
     res.json(updatedSession)
 
@@ -229,8 +229,8 @@ router.patch('/patch/:sessionId/:userId'/* , userVerify */, async (req, res) => 
 router.delete('/delete/:sessionId/:userId'/* , userVerify */, async (req, res) => {
 
     const session = await Session.findByIdAndRemove(req.params.sessionId)
-    
-    if(!session) return res.status(404).send("Session not found")
+
+    if (!session) return res.status(404).send("Session not found")
 
     res.json(session)
 

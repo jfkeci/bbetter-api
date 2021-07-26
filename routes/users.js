@@ -6,23 +6,23 @@ const jwt = require('jsonwebtoken')
 const adminVerify = require('./verifyAdminToken')
 
 const User = require('../models/user')
-const {validateUser, validateLogin} = require('../models/user')
+const { validateUser, validateLogin } = require('../models/user')
 
 
 //POST: CREATE A NEW USER
 router.post('/register', async (req, res) => {
-    
+
     //Validating the data before saving user
     const error = await validateUser(req.body)
-    if(error.message) return res.status(400).send(error.message)
+    if (error.message) return res.status(400).send(error.message)
 
     //Checking if the user is already in the database
-    const emailExists = await User.findOne({email: req.body.email})
-    if(emailExists) return res.status(400).send('Email already exists')
+    const emailExists = await User.findOne({ email: req.body.email })
+    if (emailExists) return res.status(400).send('Email already exists')
 
     //Checking if the userName is already in the database
-    const userNameExists = await User.findOne({userName: req.body.userName})
-    if(userNameExists) return res.status(400).send('Username already exists')
+    const userNameExists = await User.findOne({ userName: req.body.userName })
+    if (userNameExists) return res.status(400).send('Username already exists')
 
     /* //Hashing the password
     const salt = await bcrypt.genSalt(10)
@@ -40,8 +40,8 @@ router.post('/register', async (req, res) => {
         userEventsUrl: "",
         userSessionsUrl: ""
     })
-    user.save().then(async(user) => {
-        
+    user.save().then(async (user) => {
+
         const uid = user._id;
         const notesUrl = process.env.BASE_URL + "notes/all/" + uid;
         const eventsUrl = process.env.BASE_URL + "events/all/" + uid;
@@ -49,11 +49,11 @@ router.post('/register', async (req, res) => {
 
         const updatedUser = await User.findByIdAndUpdate(
             uid, {
-                userNotesUrl: notesUrl,
-                userEventsUrl: eventsUrl,
-                userSessionsUrl: sessionsUrl
-            },
-            {new: true}
+            userNotesUrl: notesUrl,
+            userEventsUrl: eventsUrl,
+            userSessionsUrl: sessionsUrl
+        },
+            { new: true }
         )
 
         res.json(updatedUser)
@@ -95,8 +95,8 @@ router.get('/login/:userEmail/:userPassword', async (req, res) => {
         email: req.params.userEmail,
         password: req.params.userPassword
     })
-    
-    if(!user) res.status(404).send("User not found")
+
+    if (!user) res.status(404).send("User not found")
     else res.json(user)
 })
 
@@ -124,7 +124,7 @@ router.get('/all', async (req, res) => {
 
 //GET: GET SINGLE USER
 router.get('/get/:userId', async (req, res) => {
-    const users = await User.find({_id: req.params.userId})
+    const users = await User.find({ _id: req.params.userId })
         .then((users) => res.json(users))
         .catch((error) => {
             res.status(500).send({
@@ -136,7 +136,7 @@ router.get('/get/:userId', async (req, res) => {
 //GET: GET USER BY ID
 router.get('/admin/get/:userId', adminVerify, async (req, res) => {
     const user = await User.findById(req.params.userId)
-    if(!user) res.status(404).send({
+    if (!user) res.status(404).send({
         message: "User not found"
     })
     else res.json(user)
@@ -146,18 +146,18 @@ router.get('/admin/get/:userId', adminVerify, async (req, res) => {
 router.put('/admin/update/:userId', /* adminVerify, */ async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
         req.params.userId, {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            userName: req.body.userName,
-            email: req.body.email,
-            password: req.body.password,
-            gender: req.body.gender,
-            age: req.body.age
-        },
-        {new: true}
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        userName: req.body.userName,
+        email: req.body.email,
+        password: req.body.password,
+        gender: req.body.gender,
+        age: req.body.age
+    },
+        { new: true }
     )
 
-    if(!updatedUser) res.status(404).send({
+    if (!updatedUser) res.status(404).send({
         message: "User not found"
     })
     else res.json(updatedUser)
@@ -166,7 +166,7 @@ router.put('/admin/update/:userId', /* adminVerify, */ async (req, res) => {
 //DELETE USER
 router.delete('/admin/delete/:userId', adminVerify, async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.userId)
-    if(!user) res.status(404).send({
+    if (!user) res.status(404).send({
         message: "User not found"
     })
     else res.json(user)

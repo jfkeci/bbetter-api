@@ -20,6 +20,6 @@ const QuestionSchema = new mongoose.Schema({
         minlength: 0,
         maxlength: 255
     }
-}, {timestamps: true})
+}, { timestamps: true })
 
 module.exports = new mongoose.model('Question', QuestionSchema)

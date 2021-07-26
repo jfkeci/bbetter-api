@@ -14,11 +14,11 @@ const adminVerify = require('./verifyAdminToken')
 router.post('/admin/new', adminVerify, (req, res) => {
 
     note = new Note({
-        userId      : req.body.userId,
-        noteTitle   : req.body.noteTitle,
-        noteContent : req.body.noteContent,
+        userId: req.body.userId,
+        noteTitle: req.body.noteTitle,
+        noteContent: req.body.noteContent,
         noteArchived: req.body.noteArchived,
-        synced      : req.body.synced
+        synced: req.body.synced
     })
     note.save().then(note => {
         res.json(note)
@@ -42,7 +42,7 @@ router.get('/admin/all', adminVerify, async (req, res) => {
 //GET: ADMIN: GET ALL USER NOTES
 router.get('/admin/all/:userId', adminVerify, async (req, res) => {
 
-    const notes = await Note.find({userId: req.params.userId})
+    const notes = await Note.find({ userId: req.params.userId })
         .then((notes) => res.json(notes))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
@@ -55,7 +55,7 @@ router.get('/admin/get/:noteId', adminVerify, async (req, res) => {
 
     const note = await Note.findById(req.params.noteId)
 
-    if(!note) return res.status(404).send("Note not found")
+    if (!note) return res.status(404).send("Note not found")
 
     res.json(note)
 
@@ -65,7 +65,7 @@ router.get('/admin/get/:noteId', adminVerify, async (req, res) => {
 router.get('/admin/all/:synced', adminVerify, async (req, res) => {
 
     const notes = await Note.find({
-        synced      : req.params.synced
+        synced: req.params.synced
     }).exec()
         .then((notes) => res.json(notes))
         .catch((error) => {
@@ -78,8 +78,8 @@ router.get('/admin/all/:synced', adminVerify, async (req, res) => {
 router.get('/admin/all/:userId/:synced', adminVerify, async (req, res) => {
 
     const notes = await Note.find({
-        userId      : req.params.userId,
-        synced      : req.params.synced
+        userId: req.params.userId,
+        synced: req.params.synced
     }).exec()
         .then((notes) => res.json(notes))
         .catch((error) => {
@@ -92,7 +92,7 @@ router.get('/admin/all/:userId/:synced', adminVerify, async (req, res) => {
 router.get('/admin/all/:archived', adminVerify, async (req, res) => {
 
     const notes = await Note.find({
-        archived      : req.params.archived
+        archived: req.params.archived
     }).exec()
         .then((notes) => res.json(notes))
         .catch((error) => {
@@ -105,8 +105,8 @@ router.get('/admin/all/:archived', adminVerify, async (req, res) => {
 router.get('/admin/all/:userId/:archived', adminVerify, async (req, res) => {
 
     const notes = await Note.find({
-        userId      : req.params.userId,
-        archived      : req.params.archived
+        userId: req.params.userId,
+        archived: req.params.archived
     }).exec()
         .then((notes) => res.json(notes))
         .catch((error) => {
@@ -119,17 +119,17 @@ router.get('/admin/all/:userId/:archived', adminVerify, async (req, res) => {
 router.put('/admin/put/:noteId', adminVerify, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
-        req.params.noteId, 
+        req.params.noteId,
         {
-            noteTitle   : req.body.noteTitle,
-            noteContent : req.body.noteContent,
+            noteTitle: req.body.noteTitle,
+            noteContent: req.body.noteContent,
             noteArchived: req.body.noteArchived,
-            synced      : req.body.synced
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedNote) return res.status(404).send("Note not found")
+    if (!updatedNote) return res.status(404).send("Note not found")
 
     res.json(updatedNote)
 
@@ -138,17 +138,17 @@ router.put('/admin/put/:noteId', adminVerify, async (req, res) => {
 router.patch('/admin/patch/:noteId', adminVerify, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
-        req.params.noteId, 
+        req.params.noteId,
         {
-            noteTitle   : req.body.noteTitle,
-            noteContent : req.body.noteContent,
+            noteTitle: req.body.noteTitle,
+            noteContent: req.body.noteContent,
             noteArchived: req.body.noteArchived,
-            synced      : req.body.synced
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedNote) return res.status(404).send("Note not found")
+    if (!updatedNote) return res.status(404).send("Note not found")
 
     res.json(updatedNote)
 
@@ -159,7 +159,7 @@ router.delete('/admin/delete/:noteId', adminVerify, async (req, res) => {
 
     const note = await Note.findByIdAndRemove(req.params.noteId)
 
-    if(!note) return res.status(404).send("Note not found")
+    if (!note) return res.status(404).send("Note not found")
 
     res.json(note)
 
@@ -175,11 +175,11 @@ router.delete('/admin/delete/:noteId', adminVerify, async (req, res) => {
 router.post('/new/:userId'/* , userVerify */, (req, res) => {
 
     note = new Note({
-        userId      : req.params.userId,
-        noteTitle   : req.body.noteTitle,
-        noteContent : req.body.noteContent,
+        userId: req.params.userId,
+        noteTitle: req.body.noteTitle,
+        noteContent: req.body.noteContent,
         noteArchived: req.body.noteArchived,
-        synced      : req.body.synced
+        synced: req.body.synced
     })
     note.save().then(note => {
         res.json(note)
@@ -192,7 +192,7 @@ router.post('/new/:userId'/* , userVerify */, (req, res) => {
 //GET: USER: GET ALL NOTES
 router.get('/all/:userId'/* , userVerify */, async (req, res) => {
 
-    const notes = await Note.find({userId: req.params.userId})
+    const notes = await Note.find({ userId: req.params.userId })
         .then((notes) => res.json(notes))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
@@ -204,11 +204,11 @@ router.get('/all/:userId'/* , userVerify */, async (req, res) => {
 router.get('/get/:noteId/:userId'/* , userVerify */, async (req, res) => {
 
     const note = await Note.find({
-        _id     : req.params.noteId,
-        userId  : req.params.noteId
+        _id: req.params.noteId,
+        userId: req.params.noteId
     })
 
-    if(!note) return res.status(404).send("Note not found")
+    if (!note) return res.status(404).send("Note not found")
 
     res.json(note)
 
@@ -218,8 +218,8 @@ router.get('/get/:noteId/:userId'/* , userVerify */, async (req, res) => {
 router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
 
     const notes = await Note.find({
-        userId      : req.params.userId,
-        synced      : req.params.synced
+        userId: req.params.userId,
+        synced: req.params.synced
     }).exec()
         .then((notes) => res.json(notes))
         .catch((error) => {
@@ -231,8 +231,8 @@ router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
 router.get('/all/:userId/:archived'/* , userVerify */, async (req, res) => {
 
     const notes = await Note.find({
-        userId        : req.params.userId,
-        archived      : req.params.archived
+        userId: req.params.userId,
+        archived: req.params.archived
     }).exec()
         .then((notes) => res.json(notes))
         .catch((error) => {
@@ -245,17 +245,17 @@ router.get('/all/:userId/:archived'/* , userVerify */, async (req, res) => {
 router.put('/put/:noteId'/* , userVerify */, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
-        req.params.noteId, 
+        req.params.noteId,
         {
-            noteTitle   : req.body.noteTitle,
-            noteContent : req.body.noteContent,
+            noteTitle: req.body.noteTitle,
+            noteContent: req.body.noteContent,
             noteArchived: req.body.noteArchived,
-            synced      : req.body.synced
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedNote) return res.status(404).send("Note not found")
+    if (!updatedNote) return res.status(404).send("Note not found")
 
     res.json(updatedNote)
 
@@ -264,17 +264,17 @@ router.put('/put/:noteId'/* , userVerify */, async (req, res) => {
 router.patch('/patch/:noteId'/* , userVerify */, async (req, res) => {
 
     const updatedNote = await Note.findByIdAndUpdate(
-        req.params.noteId, 
+        req.params.noteId,
         {
-            noteTitle   : req.body.noteTitle,
-            noteContent : req.body.noteContent,
+            noteTitle: req.body.noteTitle,
+            noteContent: req.body.noteContent,
             noteArchived: req.body.noteArchived,
-            synced      : req.body.synced
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedNote) return res.status(404).send("Note not found")
+    if (!updatedNote) return res.status(404).send("Note not found")
 
     res.json(updatedNote)
 
@@ -285,7 +285,7 @@ router.delete('/delete/:noteId'/* , userVerify */, async (req, res) => {
 
     const note = await Note.findByIdAndRemove(req.params.noteId)
 
-    if(!note) return res.status(404).send("Note not found")
+    if (!note) return res.status(404).send("Note not found")
 
     res.json(note)
 

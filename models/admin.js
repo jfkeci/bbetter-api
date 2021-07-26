@@ -36,7 +36,7 @@ const AdminSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 250
     }
-},{timestamps:true})
+}, { timestamps: true })
 
 const validateAdmin = (admin) => {
     const schema = yup.object().shape({
@@ -51,7 +51,7 @@ const validateAdmin = (admin) => {
         .validate(admin)
         .then(admin => admin)
         .catch(error => {
-            return{
+            return {
                 message: error.message
             }
         })
@@ -67,7 +67,7 @@ const validateAdminLogin = (admin) => {
         .validate(admin)
         .then(admin => admin)
         .catch(error => {
-            return{
+            return {
                 message: error.message
             }
         })

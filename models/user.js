@@ -63,7 +63,7 @@ const UserSchema = new mongoose.Schema({
         minlength: 0,
         maxlength: 250
     }
-},{timestamps:true})
+}, { timestamps: true })
 
 const validateUser = (user) => {
     const schema = yup.object().shape({
@@ -79,7 +79,7 @@ const validateUser = (user) => {
         .validate(user)
         .then(user => user)
         .catch(error => {
-            return{
+            return {
                 message: error.message
             }
         })
@@ -95,7 +95,7 @@ const validateLogin = (user) => {
         .validate(user)
         .then(user => user)
         .catch(error => {
-            return{
+            return {
                 message: error.message
             }
         })

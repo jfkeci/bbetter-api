@@ -13,7 +13,7 @@ const adminVerify = require('./verifyAdminToken')
 router.post('/new', adminVerify, (req, res) => {
 
     question = new Question({
-        questionNumber  : req.body.questionNumber,
+        questionNumber: req.body.questionNumber,
         question: req.body.question,
         answer: ""
     })
@@ -41,7 +41,7 @@ router.get('/get/:qId', async (req, res) => {
 
     const question = await Question.findById(req.params.qId)
 
-    if(!question) return res.status(404).send("Question not found")
+    if (!question) return res.status(404).send("Question not found")
 
     res.json(question)
 
@@ -54,7 +54,7 @@ router.get('/get/:questionNumber', async (req, res) => {
         questionNumber: req.params.questionNumber
     })
 
-    if(!question) return res.status(404).send("Questions not found")
+    if (!question) return res.status(404).send("Questions not found")
 
     res.json(question)
 
@@ -64,15 +64,15 @@ router.get('/get/:questionNumber', async (req, res) => {
 router.put('/update/:qId', adminVerify, async (req, res) => {
 
     const updatedQuestion = await Question.findByIdAndUpdate(
-        req.params.qId, 
+        req.params.qId,
         {
-            questionNumber  : req.body.questionNumber,
+            questionNumber: req.body.questionNumber,
             question: req.body.question
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedQuestion) return res.status(404).send("Question not found")
+    if (!updatedQuestion) return res.status(404).send("Question not found")
 
     res.json(updatedQuestion)
 
@@ -83,7 +83,7 @@ router.delete('/delete/:qId', adminVerify, async (req, res) => {
 
     const question = await Question.findByIdAndRemove(req.params.qId)
 
-    if(!question) return res.status(404).send("Question not found")
+    if (!question) return res.status(404).send("Question not found")
 
     res.json(question)
 

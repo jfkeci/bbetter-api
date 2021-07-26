@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const winston = require('winston')
 const cors = require('cors')
 const app = express()
-require ('dotenv').config()
+require('dotenv').config()
 const { createLogger } = require('winston')
 
 app.use(cors())
@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000
 
 //middleware
 app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }))
 
 //logger
 const logger = winston.createLogger({
@@ -29,15 +29,15 @@ const logger = winston.createLogger({
     transports: [
         new winston.transports.Console({
             format: winston.format.combine(
-                winston.format.colorize({all:true})
+                winston.format.colorize({ all: true })
             )
         }),
-        new winston.transports.File({filename: 'error.log', level: 'error'})
+        new winston.transports.File({ filename: 'error.log', level: 'error' })
     ],
     exceptionHandlers: [
-        new winston.transports.File({filename: 'exceptions.log'})
+        new winston.transports.File({ filename: 'exceptions.log' })
     ]
-  });
+});
 
 //routes
 app.use('/bbetter/users', usersRoute)
@@ -56,12 +56,12 @@ mongoose
             useNewUrlParser: true,
             useUnifiedTopology: true
         }
-        ).then(()=>{
-    logger.info("Connected to mongodb atlas")
-}).catch(error => {
-    logger.error(error.message)
-})
+    ).then(() => {
+        logger.info("Connected to mongodb atlas")
+    }).catch(error => {
+        logger.error(error.message)
+    })
 
-app.listen (PORT, () => {
+app.listen(PORT, () => {
     logger.info(`Server started at port: ${PORT}`)
 })

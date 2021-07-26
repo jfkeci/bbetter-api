@@ -14,13 +14,13 @@ const adminVerify = require('./verifyAdminToken')
 router.post('/admin/new', adminVerify, (req, res) => {
 
     event = new Event({
-        userId      : req.body.userId,
-        eventTitle  : req.body.eventTitle,
+        userId: req.body.userId,
+        eventTitle: req.body.eventTitle,
         eventDetails: req.body.eventDetails,
-        eventDate   : req.body.eventDate,
-        eventType   : req.body.eventType,
+        eventDate: req.body.eventDate,
+        eventType: req.body.eventType,
         eventChecked: req.body.eventChecked,
-        synced      : req.body.synced
+        synced: req.body.synced
     })
     event.save().then(event => {
         res.json(event)
@@ -59,7 +59,7 @@ router.get('/admin/get/:eventId', adminVerify, async (req, res) => {
 
     const event = await Event.findById(req.params.eventId)
 
-    if(!event) return res.status(404).send("Event not found")
+    if (!event) return res.status(404).send("Event not found")
 
     res.json(event)
 
@@ -95,19 +95,19 @@ router.get('/admin/all/:userId/:synced', adminVerify, async (req, res) => {
 router.put('/admin/put/:eventId', adminVerify, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
-        req.params.eventId, 
+        req.params.eventId,
         {
-            eventTitle  : req.body.eventTitle,
+            eventTitle: req.body.eventTitle,
             eventDetails: req.body.eventDetails,
-            eventDate   : req.body.eventDate,
-            eventType   : req.body.eventType,
+            eventDate: req.body.eventDate,
+            eventType: req.body.eventType,
             eventChecked: req.body.eventChecked,
-            synced      : req.body.synced
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedEvent) return res.status(404).send("Event not found")
+    if (!updatedEvent) return res.status(404).send("Event not found")
 
     res.json(updatedEvent)
 
@@ -117,19 +117,19 @@ router.put('/admin/put/:eventId', adminVerify, async (req, res) => {
 router.patch('/admin/patch/:eventId', adminVerify, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
-        req.params.eventId, 
+        req.params.eventId,
         {
-            eventTitle  : req.body.eventTitle,
+            eventTitle: req.body.eventTitle,
             eventDetails: req.body.eventDetails,
-            eventDate   : req.body.eventDate,
-            eventType   : req.body.eventType,
+            eventDate: req.body.eventDate,
+            eventType: req.body.eventType,
             eventChecked: req.body.eventChecked,
-            synced      : req.body.synced
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedEvent) return res.status(404).send("Event not found")
+    if (!updatedEvent) return res.status(404).send("Event not found")
 
     res.json(updatedEvent)
 
@@ -140,7 +140,7 @@ router.delete('/admin/delete/:eventId', adminVerify, async (req, res) => {
 
     const event = await Event.findByIdAndRemove(req.params.eventId)
 
-    if(!event) return res.status(404).send("Event not found")
+    if (!event) return res.status(404).send("Event not found")
 
     res.json(event)
 
@@ -164,7 +164,7 @@ router.get('/admin/all/:checked', adminVerify, async (req, res) => {
 router.get('/admin/all/:userId/:checked', adminVerify, async (req, res) => {
 
     const events = await Event.find({
-        userId      : req.params.userId,
+        userId: req.params.userId,
         eventChecked: req.params.checked
     }).exec()
         .then((events) => res.json(events))
@@ -184,13 +184,13 @@ router.get('/admin/all/:userId/:checked', adminVerify, async (req, res) => {
 router.post('/new/:userId'/* , userVerify */, (req, res) => {
 
     event = new Event({
-        userId      : req.params.userId,
-        eventTitle  : req.body.eventTitle,
+        userId: req.params.userId,
+        eventTitle: req.body.eventTitle,
         eventDetails: req.body.eventDetails,
-        eventDate   : req.body.eventDate,
-        eventType   : req.body.eventType,
+        eventDate: req.body.eventDate,
+        eventType: req.body.eventType,
         eventChecked: req.body.eventChecked,
-        synced      : req.body.synced
+        synced: req.body.synced
     })
     event.save().then(event => {
         res.json(event)
@@ -203,7 +203,7 @@ router.post('/new/:userId'/* , userVerify */, (req, res) => {
 //GET: USER: GET ALL EVENTS FROM USER
 router.get('/all/:userId'/* , userVerify */, async (req, res) => {
 
-    const events = await Event.find({userId: req.params.userId}).exec()
+    const events = await Event.find({ userId: req.params.userId }).exec()
         .then((events) => res.json(events))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
@@ -216,7 +216,7 @@ router.get('/get/:eventId'/* , userVerify */, async (req, res) => {
 
     const event = await Event.findById(req.params.eventId)
 
-    if(!event) return res.status(404).send("Event not found")
+    if (!event) return res.status(404).send("Event not found")
 
     res.json(event)
 
@@ -226,8 +226,8 @@ router.get('/get/:eventId'/* , userVerify */, async (req, res) => {
 router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
 
     const events = await Event.find({
-        userId      : req.params.userId,
-        synced      : req.params.synced
+        userId: req.params.userId,
+        synced: req.params.synced
     }).exec()
         .then((events) => res.json(events))
         .catch((error) => {
@@ -237,10 +237,10 @@ router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
 })
 
 //GET: USER: GET ALL USER EVENTS DONE/PENDING
-router.get('/all/:userId/:checked'/* , userVerify */,  async (req, res) => {
+router.get('/all/:userId/:checked'/* , userVerify */, async (req, res) => {
 
     const events = await Event.find({
-        userId      : req.params.userId,
+        userId: req.params.userId,
         eventChecked: req.params.checked
     }).exec()
         .then((events) => res.json(events))
@@ -254,19 +254,19 @@ router.get('/all/:userId/:checked'/* , userVerify */,  async (req, res) => {
 router.put('/put/:eventId'/* , userVerify */, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
-        req.params.eventId, 
+        req.params.eventId,
         {
-            eventTitle  : req.body.eventTitle,
+            eventTitle: req.body.eventTitle,
             eventDetails: req.body.eventDetails,
-            eventDate   : req.body.eventDate,
-            eventType   : req.body.eventType,
+            eventDate: req.body.eventDate,
+            eventType: req.body.eventType,
             eventChecked: req.body.eventChecked,
-            synced      : req.body.synced
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedEvent) return res.status(404).send("Event not found")
+    if (!updatedEvent) return res.status(404).send("Event not found")
 
     res.json(updatedEvent)
 
@@ -276,19 +276,19 @@ router.put('/put/:eventId'/* , userVerify */, async (req, res) => {
 router.patch('/patch/:eventId'/* , userVerify */, async (req, res) => {
 
     const updatedEvent = await Event.findByIdAndUpdate(
-        req.params.eventId, 
+        req.params.eventId,
         {
-            eventTitle  : req.body.eventTitle,
+            eventTitle: req.body.eventTitle,
             eventDetails: req.body.eventDetails,
-            eventDate   : req.body.eventDate,
-            eventType   : req.body.eventType,
+            eventDate: req.body.eventDate,
+            eventType: req.body.eventType,
             eventChecked: req.body.eventChecked,
-            synced      : req.body.synced
+            synced: req.body.synced
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!updatedEvent) return res.status(404).send("Event not found")
+    if (!updatedEvent) return res.status(404).send("Event not found")
 
     res.json(updatedEvent)
 
@@ -299,7 +299,7 @@ router.delete('/delete/:eventId'/* , userVerify */, async (req, res) => {
 
     const event = await Event.findByIdAndRemove(req.params.eventId)
 
-    if(!event) return res.status(404).send("Event not found")
+    if (!event) return res.status(404).send("Event not found")
 
     res.json(event)
 

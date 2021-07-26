@@ -30,6 +30,6 @@ const NoteSchema = new mongoose.Schema({
         min: 0,
         max: 3
     },
-}, {timestamps: true})
+}, { timestamps: true })
 
 module.exports = new mongoose.model('Note', NoteSchema)
