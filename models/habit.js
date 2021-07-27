@@ -14,14 +14,14 @@ const HabitSchema = new mongoose.Schema({
         minlength: 0,
         maxlength: 155
     },
-/*     start: {
+    start: {
         type: Number,
         required: true,
         min: 1,
         max: 2
-    }, */
+    },
     habitDates: [{
-        date: Date
+        date: String
     }],
     intentions: [{
         intention: String
