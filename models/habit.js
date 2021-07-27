@@ -21,10 +21,16 @@ const HabitSchema = new mongoose.Schema({
         max: 2
     },
     habitDates: [{
-        date: String
+        date: String,
+        required: true,
+        minlength: 11,
+        maxlength: 11
     }],
     intentions: [{
-        intention: String
+        intention: String,
+        required: true,
+        minlength: 3,
+        maxlength: 155
     }]
 }, { timestamps: true })
 
