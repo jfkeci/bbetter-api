@@ -25,70 +25,70 @@ router.post('/new', async (req, res) => {
 //PATCH: PUSH NEW INTENTION ON HABIT
 router.patch('/intention/:habitId', async (req, res) => {
     habitToUpdate = await Habit.findById(req.params.habitId)
-    .then( (habitToUpdate) => {
-        if (!habitToUpdate) return res.status(404).send("Habit not found")
-        habitToUpdate.intentions.push({
-            intention: req.body.intention
+        .then((habitToUpdate) => {
+            if (!habitToUpdate) return res.status(404).send("Habit not found")
+            habitToUpdate.intentions.push({
+                intention: req.body.intention
+            })
+            habitToUpdate.save().then((updatedHabit) => {
+                if (!updatedHabit)
+                    return res.status(500).send("Save failed: ")
+                else
+                    return res.status(200).send("Intention saved")
+            })
         })
-        habitToUpdate.save().then( (updatedHabit) => {
-            if(!updatedHabit)
-                return res.status(500).send("Save failed: ")
-            else
-                return res.status(200).send("Intention saved")
-        })
-    })
 })
 
 //DELETE: DELETE INTENTION ON HABIT
 router.patch('/intention/:habitId/:intentionId', async (req, res) => {
     habitToUpdate = await Habit.findById(req.params.habitId)
-    .then( (habitToUpdate) => {
-        if (!habitToUpdate) return res.status(404).send("Habit not found")
-        habitToUpdate.intentions.pull({
-            _id: req.params.intentionId
+        .then((habitToUpdate) => {
+            if (!habitToUpdate) return res.status(404).send("Habit not found")
+            habitToUpdate.intentions.pull({
+                _id: req.params.intentionId
+            })
+            habitToUpdate.save().then((updatedHabit) => {
+                if (!updatedHabit)
+                    return res.status(500).send("Save failed: ")
+                else
+                    return res.status(200).send("Intention deleted")
+            })
         })
-        habitToUpdate.save().then( (updatedHabit) => {
-            if(!updatedHabit)
-                return res.status(500).send("Save failed: ")
-            else
-                return res.status(200).send("Intention deleted")
-        })
-    })
 })
 
 
 //PATCH: PUSH NEW DATE ON HABIT
 router.patch('/date/:habitId', async (req, res) => {
     habitToUpdate = await Habit.findById(req.params.habitId)
-    .then( (habitToUpdate) => {
-        if (!habitToUpdate) return res.status(404).send("Habit not found")
-        habitToUpdate.habitDates.push({
-            date: req.body.date
+        .then((habitToUpdate) => {
+            if (!habitToUpdate) return res.status(404).send("Habit not found")
+            habitToUpdate.habitDates.push({
+                date: req.body.date
+            })
+            habitToUpdate.save().then((updatedHabit) => {
+                if (!updatedHabit)
+                    return res.status(500).send("Delete failed: ")
+                else
+                    return res.status(200).send("Date saved")
+            })
         })
-        habitToUpdate.save().then( (updatedHabit) => {
-            if(!updatedHabit)
-                return res.status(500).send("Delete failed: ")
-            else
-                return res.status(200).send("Date saved")
-        })
-    })
 })
 
 //DELETE: DELETE INTENTION ON HABIT
 router.patch('/date/:habitId/:dateId', async (req, res) => {
     habitToUpdate = await Habit.findById(req.params.habitId)
-    .then( (habitToUpdate) => {
-        if (!habitToUpdate) return res.status(404).send("Habit not found")
-        habitToUpdate.habitDates.pull({
-            _id: req.params.dateId
+        .then((habitToUpdate) => {
+            if (!habitToUpdate) return res.status(404).send("Habit not found")
+            habitToUpdate.habitDates.pull({
+                _id: req.params.dateId
+            })
+            habitToUpdate.save().then((updatedHabit) => {
+                if (!updatedHabit)
+                    return res.status(500).send("Delete failed: ")
+                else
+                    return res.status(200).send("Date deleted")
+            })
         })
-        habitToUpdate.save().then( (updatedHabit) => {
-            if(!updatedHabit)
-                return res.status(500).send("Delete failed: ")
-            else
-                return res.status(200).send("Date deleted")
-        })
-    })
 })
 
 

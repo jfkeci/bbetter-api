@@ -207,7 +207,7 @@ router.get('/get/:noteId/:userId'/* , userVerify */, async (req, res) => {
         _id: req.params.noteId,
         userId: req.params.noteId
     }).exec()
-    
+
     if (!note) return res.status(404).send("Note not found")
 
     res.json(note)
