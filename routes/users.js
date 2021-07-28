@@ -94,7 +94,7 @@ router.get('/login/:userEmail/:userPassword', async (req, res) => {
     const user = await User.find({
         email: req.params.userEmail,
         password: req.params.userPassword
-    })
+    }).exec()
 
     if (!user) res.status(404).send("User not found")
     else res.json(user)
@@ -124,7 +124,7 @@ router.get('/all', async (req, res) => {
 
 //GET: GET SINGLE USER
 router.get('/get/:userId', async (req, res) => {
-    const users = await User.find({ _id: req.params.userId })
+    const users = await User.find({ _id: req.params.userId }).exec()
         .then((users) => res.json(users))
         .catch((error) => {
             res.status(500).send({

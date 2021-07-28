@@ -46,7 +46,7 @@ router.get('/admin/all/:userId', adminVerify, async (req, res) => {
 
     const events = await Event.find({
         userId: req.params.userId
-    })
+    }).exec()
         .then((events) => res.json(events))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)

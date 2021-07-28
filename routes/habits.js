@@ -111,7 +111,7 @@ router.get('/get/:habitId', async (req, res) => {
 router.get('/all/:userId', async (req, res) => {
     const habits = await Habit.find({
         userId: req.params.userId
-    })
+    }).exec()
         .then((habits) => res.json(habits))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)

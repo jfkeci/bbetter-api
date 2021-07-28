@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Session = require('../models/session')
+const User = require('../models/user')
 /* const userVerify = require('./verifyUserToken') */
 const adminVerify = require('./verifyAdminToken')
 
@@ -178,6 +179,19 @@ router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
         userId: req.params.userId,
         synced: req.params.synced
     }).exec()
+        .then((sessions) => res.json(sessions))
+        .catch((error) => {
+            res.status(500).send(`Something went wrong getting the data, error: ${error}`)
+        })
+
+})
+
+//GET: USER: GET ALL SESSIONS BY USER, MAKE RANKING
+router.get('/all/ranking'/* , userVerify */, async (req, res) => {
+
+    const users = await User.find
+
+    const sessions = await Session.find().exec()
         .then((sessions) => res.json(sessions))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)

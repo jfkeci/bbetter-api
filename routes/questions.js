@@ -52,7 +52,7 @@ router.get('/get/:questionNumber', async (req, res) => {
 
     const question = await Question.find({
         questionNumber: req.params.questionNumber
-    })
+    }).exec()
 
     if (!question) return res.status(404).send("Questions not found")
 

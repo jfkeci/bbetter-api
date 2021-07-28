@@ -42,7 +42,7 @@ router.get('/admin/all', adminVerify, async (req, res) => {
 //GET: ADMIN: GET ALL USER NOTES
 router.get('/admin/all/:userId', adminVerify, async (req, res) => {
 
-    const notes = await Note.find({ userId: req.params.userId })
+    const notes = await Note.find({ userId: req.params.userId }).exec()
         .then((notes) => res.json(notes))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
@@ -192,7 +192,7 @@ router.post('/new/:userId'/* , userVerify */, (req, res) => {
 //GET: USER: GET ALL NOTES
 router.get('/all/:userId'/* , userVerify */, async (req, res) => {
 
-    const notes = await Note.find({ userId: req.params.userId })
+    const notes = await Note.find({ userId: req.params.userId }).exec()
         .then((notes) => res.json(notes))
         .catch((error) => {
             res.status(500).send(`Something went wrong getting the data, error: ${error}`)
@@ -206,8 +206,8 @@ router.get('/get/:noteId/:userId'/* , userVerify */, async (req, res) => {
     const note = await Note.find({
         _id: req.params.noteId,
         userId: req.params.noteId
-    })
-
+    }).exec()
+    
     if (!note) return res.status(404).send("Note not found")
 
     res.json(note)
