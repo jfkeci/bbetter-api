@@ -186,18 +186,21 @@ router.get('/all/:userId/:synced'/* , userVerify */, async (req, res) => {
 
 })
 
-//GET: USER: GET ALL SESSIONS BY USER, MAKE RANKING
-router.get('/all/ranking'/* , userVerify */, async (req, res) => {
+/* //GET: USER: GET ALL SESSIONS BY USER, MAKE RANKING
+router.get('/all/ranking', async (req, res) => {
 
-    const users = await User.find
+    const users = await User.find().then(async (users) => {
+        const sessions = await Session.find().exec()
+            .then((sessions) => {
 
-    const sessions = await Session.find().exec()
-        .then((sessions) => res.json(sessions))
-        .catch((error) => {
-            res.status(500).send(`Something went wrong getting the data, error: ${error}`)
-        })
-
-})
+            })
+            .catch((error) => {
+                res.status(500).send(`Something went wrong getting the data, error: ${error}`)
+            })
+    }).catch((err) => {
+        res.status(500).send(`Something went wrong getting the data, error: ${err}`)
+    })
+}) */
 
 //PUT: USER: UPDATE USER SESSION BASED ON ID
 router.put('/put/:sessionId/:userId'/* , userVerify */, async (req, res) => {
