@@ -292,7 +292,7 @@ router.delete('/delete/:noteId'/* , userVerify */, async (req, res) => {
 })
 
 //GET: GET SINGLE NOTE BY ID
-router.get('/get/:noteId', adminVerify, async (req, res) => {
+router.get('/get/:noteId', async (req, res) => {
 
     const note = await Note.findById(req.params.noteId)
 
